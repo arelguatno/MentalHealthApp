@@ -1,0 +1,85 @@
+{
+  "project_info": {
+    "project_number": "515432095675",
+    "firebase_url": "https://happy-mind-app.firebaseio.com",
+    "project_id": "happy-mind-app",
+    "storage_bucket": "happy-mind-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:515432095675:android:7c03a1bb5d727dc6022e9e",
+        "android_client_info": {
+          "package_name": "com.dmjp.happymind"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "515432095675-4rb4h93for6hp5oms5abmqvknpgg8ord.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dmjp.happymind",
+            "certificate_hash": "3d8c95921e9f51d226a894ebe9259883f2e35c24"
+          }
+        },
+        {
+          "client_id": "515432095675-71a9941k4g488ba3798pa79p3bvledtg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAKVD_laJSFJYEd0LdchaTXBlB7FTRbVY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "515432095675-71a9941k4g488ba3798pa79p3bvledtg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:515432095675:android:f660335c99c7e7df022e9e",
+        "android_client_info": {
+          "package_name": "com.example.mentalhealthapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "515432095675-btcpa20vr5bbmgn8lcp6vdbrgtrtq12n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mentalhealthapp",
+            "certificate_hash": "0064c47e377363a56d10bf17bdee4ce0bad0c18f"
+          }
+        },
+        {
+          "client_id": "515432095675-71a9941k4g488ba3798pa79p3bvledtg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAKVD_laJSFJYEd0LdchaTXBlB7FTRbVY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "515432095675-71a9941k4g488ba3798pa79p3bvledtg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
