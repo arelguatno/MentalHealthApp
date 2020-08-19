@@ -1,8 +1,10 @@
-package com.example.mentalhealthapp;
+package com.example.mentalhealthapp.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.mentalhealthapp.R;
 
 public class HomeScreen extends AppCompatActivity {
 

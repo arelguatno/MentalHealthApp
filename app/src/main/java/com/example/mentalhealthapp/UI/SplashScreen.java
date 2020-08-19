@@ -1,4 +1,4 @@
-package com.example.mentalhealthapp;
+package com.example.mentalhealthapp.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,9 +7,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.WindowManager;
 
-public class SplashScreen extends AppCompatActivity {
+import com.example.mentalhealthapp.R;
 
-    private static int SPLASH_SCREEN_TIMEOUT = 1500;
+import static com.example.mentalhealthapp.utility.Constants.SPLASH_SCREEN_TIMEOUT;
+
+public class SplashScreen extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

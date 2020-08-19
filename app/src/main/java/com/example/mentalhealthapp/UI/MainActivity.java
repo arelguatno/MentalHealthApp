@@ -1,4 +1,4 @@
-package com.example.mentalhealthapp;
+package com.example.mentalhealthapp.UI;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,7 +14,7 @@ import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 
 
-import com.google.android.material.bottomnavigation.BottomNavigationItemView;
+import com.example.mentalhealthapp.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;

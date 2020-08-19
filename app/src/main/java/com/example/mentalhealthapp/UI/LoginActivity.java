@@ -1,14 +1,16 @@
-package com.example.mentalhealthapp;
+package com.example.mentalhealthapp.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class CreateAccount extends AppCompatActivity {
+import com.example.mentalhealthapp.R;
+
+public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_account);
+        setContentView(R.layout.activity_login);
     }
 }

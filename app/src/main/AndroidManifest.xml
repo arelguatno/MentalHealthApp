@@ -10,12 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".LoginActivity"
+            android:name=".UI.LoginActivity"
             android:label="@string/title_activity_login" />
-        <activity android:name=".CreateAccount" />
-        <activity android:name=".HomeScreen" />
-        <activity android:name=".SplashScreen" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".UI.CreateAccount" />
+        <activity android:name=".UI.HomeScreen" />
+        <activity android:name=".UI.SplashScreen" />
+        <activity android:name=".UI.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
