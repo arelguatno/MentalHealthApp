@@ -1,4 +1,4 @@
-package com.example.mentalhealthapp.UI;
+package com.example.mentalhealthapp.ui;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
