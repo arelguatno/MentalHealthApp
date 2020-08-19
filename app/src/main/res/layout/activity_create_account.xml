@@ -7,62 +7,89 @@
     tools:context=".ui.CreateAccount">
 
     <EditText
-        android:id="@+id/editTextTextPassword"
+        android:id="@+id/password_txt"
         android:layout_width="288dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
-        tools:layout_editor_absoluteX="61dp"
-        tools:layout_editor_absoluteY="261dp" />
+        app:layout_constraintBottom_toTopOf="@+id/signup_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.942" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName2"
+        android:id="@+id/last_name_txt"
         android:layout_width="111dp"
         android:layout_height="46dp"
+        android:layout_marginTop="60dp"
         android:ems="10"
         android:hint="Last name"
         android:inputType="textPersonName"
-        tools:layout_editor_absoluteX="238dp"
-        tools:layout_editor_absoluteY="70dp" />
+        app:layout_constraintBottom_toTopOf="@+id/contact_info_txt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.793"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.227" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName3"
+        android:id="@+id/first_name_txt"
+        android:layout_width="150dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="60dp"
+        android:ems="10"
+        android:hint="First name"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/contact_info_txt"
+        app:layout_constraintEnd_toStartOf="@+id/last_name_txt"
+        app:layout_constraintHorizontal_bias="0.693"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.227" />
+
+    <EditText
+        android:id="@+id/contact_info_txt"
         android:layout_width="288dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Contact number"
         android:inputType="textPersonName"
-        tools:layout_editor_absoluteX="61dp"
-        tools:layout_editor_absoluteY="133dp" />
+        app:layout_constraintBottom_toTopOf="@+id/email_txt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.911" />
 
     <EditText
-        android:id="@+id/editTextTextEmailAddress"
+        android:id="@+id/email_txt"
         android:layout_width="288dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Email"
         android:inputType="textEmailAddress"
-        tools:layout_editor_absoluteX="61dp"
-        tools:layout_editor_absoluteY="201dp" />
-
-    <EditText
-        android:id="@+id/editTextTextPersonName"
-        android:layout_width="150dp"
-        android:layout_height="46dp"
-        android:ems="10"
-        android:hint="First name"
-        android:inputType="textPersonName"
-        tools:layout_editor_absoluteX="61dp"
-        tools:layout_editor_absoluteY="70dp" />
+        app:layout_constraintBottom_toTopOf="@+id/password_txt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.933" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/signup_button"
         android:layout_width="288dp"
         android:layout_height="50dp"
+        android:layout_marginBottom="36dp"
         android:text="@string/sign_up_button"
-        tools:layout_editor_absoluteX="61dp"
-        tools:layout_editor_absoluteY="340dp" />
+        app:layout_constraintBottom_toTopOf="@+id/textView5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.921" />
 
     <TextView
         android:id="@+id/textView5"
@@ -71,39 +98,59 @@
         android:text="@string/sign_up_with"
         android:textAlignment="center"
         android:textSize="18sp"
-        tools:layout_editor_absoluteX="144dp"
-        tools:layout_editor_absoluteY="415dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.599" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/google_signin"
         android:layout_width="95dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
         android:text="@string/google_signin_button"
-        tools:layout_editor_absoluteX="158dp"
-        tools:layout_editor_absoluteY="471dp" />
+        app:layout_constraintBottom_toTopOf="@+id/facebook_signin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/facebook_signin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="28dp"
         android:text="@string/facebook_signin_button"
-        tools:layout_editor_absoluteX="158dp"
-        tools:layout_editor_absoluteY="537dp" />
+        app:layout_constraintBottom_toTopOf="@+id/checkBox"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <CheckBox
         android:id="@+id/checkBox"
         android:layout_width="288dp"
         android:layout_height="wrap_content"
         android:text="@string/terms_and_conditions"
-        tools:layout_editor_absoluteX="61dp"
-        tools:layout_editor_absoluteY="617dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.92" />
 
     <CheckBox
         android:id="@+id/checkBox2"
         android:layout_width="288dp"
         android:layout_height="wrap_content"
         android:text="@string/data_collection"
-        tools:layout_editor_absoluteX="61dp"
-        tools:layout_editor_absoluteY="665dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.977" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
