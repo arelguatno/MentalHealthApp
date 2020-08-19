@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import com.example.mentalhealthapp.R;
 
-public class HomeScreen extends AppCompatActivity {
+public class LoginHomeScreen extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
