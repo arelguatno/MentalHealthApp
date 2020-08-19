@@ -17,7 +17,7 @@ import com.example.mentalhealthapp.java_objects.ConsultationOfferingModel;
 import java.util.List;
 
 public class ConsultationOfferingAdapter extends ArrayAdapter<ConsultationOfferingModel> {
-    List<ConsultationOfferingModel> heroList;
+    List<ConsultationOfferingModel> listOfServices;
 
     //activity context
     Context context;
@@ -26,11 +26,11 @@ public class ConsultationOfferingAdapter extends ArrayAdapter<ConsultationOfferi
     int resource;
 
     //constructor initializing the values
-    public ConsultationOfferingAdapter(Context context, int resource, List<ConsultationOfferingModel> heroList) {
-        super(context, resource, heroList);
+    public ConsultationOfferingAdapter(Context context, int resource, List<ConsultationOfferingModel> listOfServices) {
+        super(context, resource, listOfServices);
         this.context = context;
         this.resource = resource;
-        this.heroList = heroList;
+        this.listOfServices = listOfServices;
     }
 
     //this will return the ListView Item as a View
@@ -50,13 +50,13 @@ public class ConsultationOfferingAdapter extends ArrayAdapter<ConsultationOfferi
         TextView textViewName = view.findViewById(R.id.textViewName);
         TextView textViewTeam = view.findViewById(R.id.textViewTeam);
 
-        //getting the hero of the specified position
-        ConsultationOfferingModel hero = heroList.get(position);
+        //getting the listOfServices of the specified position
+        ConsultationOfferingModel hero = listOfServices.get(position);
 
         //adding values to the list item
         imageView.setImageDrawable(context.getResources().getDrawable(hero.getImage()));
-        textViewName.setText(hero.getName());
-        textViewTeam.setText(hero.getTeam());
+        textViewName.setText(hero.getTitle());
+        textViewTeam.setText(hero.getDesc());
 
         //finally returning the view
         return view;

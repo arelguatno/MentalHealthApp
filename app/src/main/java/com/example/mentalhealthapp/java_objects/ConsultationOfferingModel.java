@@ -3,23 +3,23 @@ package com.example.mentalhealthapp.java_objects;
 public class ConsultationOfferingModel {
 
     int image;
-    String name, team;
+    String title, desc;
 
-    public ConsultationOfferingModel(int image, String name, String team) {
+    public ConsultationOfferingModel(int image, String title, String desc) {
         this.image = image;
-        this.name = name;
-        this.team = team;
+        this.title = title;
+        this.desc = desc;
     }
 
     public int getImage() {
         return image;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public String getTeam() {
-        return team;
+    public String getDesc() {
+        return desc;
     }
 }
