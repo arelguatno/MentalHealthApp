@@ -31,9 +31,9 @@ public class MainActivity extends AppCompatActivity {
         if (user != null) {
             // User is signed in
         } else {
-            Intent i = new Intent(this, SplashScreen.class);
-            startActivity(i);
-            finish();
+//            Intent i = new Intent(this, SplashScreen.class);
+//            startActivity(i);
+//            finish();
         }
 
         // Bottom Navigation View
@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         // Tool Bar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
