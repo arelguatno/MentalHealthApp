@@ -1,3 +1,25 @@
 <resources>
     <string name="app_name">Mental Health App</string>
+    
+    //HomeScreen
+    <string name="create_account_button">Create Account</string>
+    <string name="login_button">Login</string>
+    <string name="logo_description">Home Screen logo</string>
+
+    //CreateAccount
+    <string name="sign_up_button">Sign Up</string>
+    <string name="sign_up_with">or sign up with</string>
+    <string name="google_signin_button">Google</string>
+    <string name="facebook_signin_button">Facebook</string>
+    <string name="terms_and_conditions">I have read, understood, and accept the terms and conditions</string>
+    <string name="data_collection">I agree on the use of my personal data</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
 </resources>
