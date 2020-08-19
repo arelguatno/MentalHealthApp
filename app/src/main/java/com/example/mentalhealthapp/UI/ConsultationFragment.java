@@ -34,7 +34,7 @@ public class ConsultationFragment extends Fragment {
         listView = (ListView) v.findViewById(R.id.listView);
 
         //adding some values to our list
-        listOfServices.add(new ConsultationOfferingModel(R.drawable.ask_question, "Ask a FREE question", "Ask a general mental health query  and get a free answer within 24 hours  "));
+        listOfServices.add(new ConsultationOfferingModel(R.drawable.ask_question, "Ask a FREE question", "Ask a general mental health query  and get a free answer within 24 hours"));
         listOfServices.add(new ConsultationOfferingModel(R.drawable.book_doc, "Book an appointment", "Get help from any our 1,000+ therapist within 6 hours over chat or video call"));
         listOfServices.add(new ConsultationOfferingModel(R.drawable.thunder_image, "Consult a Therapist now", "Instantly talk to any therapist available now over chat or video call "));
 
