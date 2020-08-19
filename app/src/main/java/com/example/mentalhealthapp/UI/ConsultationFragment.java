@@ -27,7 +27,7 @@ public class ConsultationFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_consultation, container,false);
+        View v = inflater.inflate(R.layout.fragment_consultation, container, false);
 
         //initializing objects
         listOfServices = new ArrayList<>();
@@ -48,7 +48,7 @@ public class ConsultationFragment extends Fragment {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (position){
+                switch (position) {
                     case 0:
                         // Ask for free
                         break;

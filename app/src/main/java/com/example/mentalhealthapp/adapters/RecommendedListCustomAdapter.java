@@ -26,12 +26,13 @@ public class RecommendedListCustomAdapter extends RecyclerView.Adapter<Recommend
     }
 
     @Override
-    public  RecommendedListCustomAdapter.viewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public RecommendedListCustomAdapter.viewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(context).inflate(R.layout.recommended_list, viewGroup, false);
         return new viewHolder(view);
     }
+
     @Override
-    public  void onBindViewHolder(RecommendedListCustomAdapter.viewHolder viewHolder,int position) {
+    public void onBindViewHolder(RecommendedListCustomAdapter.viewHolder viewHolder, int position) {
         viewHolder.iconName.setText(arrayList.get(position).getName());
         viewHolder.icon.setImageResource(arrayList.get(position).getImage());
 
