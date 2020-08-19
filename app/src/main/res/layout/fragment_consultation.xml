@@ -20,8 +20,8 @@
         android:layout_marginLeft="5dp"
         android:layout_marginTop="5dp"
         android:textColor="@android:color/black"
-        android:text="Hi, there. How may i help you today?"
-        android:textSize="17sp"/>
+        android:text="Hi, There. How May I Help You Today?"
+        android:textSize="16sp"/>
 
     <LinearLayout
         android:layout_width = "match_parent"

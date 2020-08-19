@@ -31,12 +31,12 @@ public class HomeFragment extends Fragment {
     int[] sampleImages = {R.drawable.image_1, R.drawable.image_2,R.drawable.image_3,R.drawable.image_4};
 
     // Recommended List
-    int recommended_icons[] = {R.drawable.image_image1,R.drawable.image_image1,R.drawable.image_image1,R.drawable.image_image1,R.drawable.image_image1};
-    String recommended_iconsName[] = {"Stay Happy", "Anxiety", "Beat the Stress", "Focus", "Depression"};
+    int recommended_icons[] = {R.drawable.recommended_image_1,R.drawable.recommended_image_2,R.drawable.recommended_image_3,R.drawable.recommended_image_4,R.drawable.recommended_image_5};
+    String recommended_iconsName[] = {"Stay Happy", "Overcome Anxiety", "Stress Free", "Focus", "Get up"};
 
     // Featured List
     int featured_icons[] = {R.drawable.care_image1,R.drawable.care_image1,R.drawable.care_image1,R.drawable.care_image1,R.drawable.care_image1};
-    String featured_iconsName[] = {"Feeling Tired?", "Evidence and research", "We Care", "Focus", "Depression"};
+    String featured_iconsName[] = {"Feeling Tired", "Evidence and research", "We Care", "Focus", "Depression"};
 
 
     @Nullable
