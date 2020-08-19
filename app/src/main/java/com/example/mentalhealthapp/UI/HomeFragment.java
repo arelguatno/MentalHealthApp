@@ -27,7 +27,8 @@ public class HomeFragment extends Fragment {
     ArrayList<RecommendedListModel> arrayList;
     RecyclerView recyclerView;
 
-    int[] sampleImages = {R.drawable.image_1, R.drawable.image_2,R.drawable.image_3};
+    // Carousel Images
+    int[] sampleImages = {R.drawable.image_3, R.drawable.image_2,R.drawable.image_1};
 
     // Recommended List
     int recommended_icons[] = {R.drawable.image_image1,R.drawable.image_image1,R.drawable.image_image1,R.drawable.image_image1,R.drawable.image_image1};
