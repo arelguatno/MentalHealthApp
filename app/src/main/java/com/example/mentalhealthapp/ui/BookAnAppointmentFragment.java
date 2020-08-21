@@ -15,9 +15,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mentalhealthapp.R;
+import com.example.mentalhealthapp.adapters.DoctorsListAdapter;
+import com.example.mentalhealthapp.java_objects.DoctorListItemModel;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class BookAnAppointmentFragment extends Fragment {
@@ -25,6 +30,9 @@ public class BookAnAppointmentFragment extends Fragment {
     TextView date;
     ImageView calendar_img;
     DatePickerDialog.OnDateSetListener listener;
+    RecyclerView recyclerView;
+    RecyclerView.Adapter adapter;
+    RecyclerView.LayoutManager layoutManager;
 
     @Nullable
     @Override
@@ -53,6 +61,18 @@ public class BookAnAppointmentFragment extends Fragment {
                 date.setText(i+"/"+i1+"/"+i2);
             }
         };
+
+        ArrayList<DoctorListItemModel> doctorList = new ArrayList<>();
+        doctorList.add(new DoctorListItemModel("", "Dr. Quack Quack", "4.0", "3:00 PM"));
+        doctorList.add(new DoctorListItemModel("", "Dr. Drake Ramoray", "4.0", "4:00 PM"));
+        doctorList.add(new DoctorListItemModel("", "Dr. Johnny Simcard", "4.0", "5:00 PM"));
+
+        recyclerView = v.findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(getContext());
+        adapter = new DoctorsListAdapter(doctorList);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
 
         return v;
     }
