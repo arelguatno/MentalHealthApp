@@ -17,6 +17,8 @@ import com.example.mentalhealthapp.R;
 import com.vidyo.VidyoClient.Connector.Connector;
 import com.vidyo.VidyoClient.Connector.ConnectorPkg;
 
+import static com.example.mentalhealthapp.utility.Constants.DISPLAY_NAME;
+
 
 public class VideoActivity extends AppCompatActivity implements Connector.IConnect {
 
@@ -62,7 +64,7 @@ public class VideoActivity extends AppCompatActivity implements Connector.IConne
         vc.showViewAt(videoFrame, 0, 0, videoFrame.getWidth(), videoFrame.getHeight());
 
         String token = "cHJvdmlzaW9uAHVzZXIxQGYxMGI4Yi52aWR5by5pbwA2Mzc2NTQxMzg5NAAANWViNDQ4NjZjYTI3NzA4NzkwZjFiNTk2OGYwNTllYTdmOTAyMGMwZmEwNmU1OTc3ZTY3MDc5MmUyNjdmYjZjOGMxMzhlNDI0MmMxNTc5ZGNlMjRiMDJlNDEzOTI2YmM4";
-        vc.connect("prod.vidyo.io", token, "Janelle", "DemoRoom", this);
+        vc.connect("prod.vidyo.io", token, DISPLAY_NAME, "DemoRoom", this);
 
 //        Janelle is the display name, this can be dynamic
     }
