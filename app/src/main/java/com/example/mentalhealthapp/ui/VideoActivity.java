@@ -38,8 +38,8 @@ public class VideoActivity extends AppCompatActivity implements Connector.IConne
 
         checkCameraPermission();
 
-        btnConnect = findViewById(R.id.btn_vid_connect);
-        btnDisconnect = findViewById(R.id.btn_vid_discon);
+//        btnConnect = findViewById(R.id.btn_vid_connect );
+//        btnDisconnect = findViewById(R.id.btn_vid_discon);
 
         ConnectorPkg.setApplicationUIContext(this);
         ConnectorPkg.initialize();
@@ -55,13 +55,13 @@ public class VideoActivity extends AppCompatActivity implements Connector.IConne
     }
 
     public void Connect(View v){
-        btnConnect.setClickable(false);
-        btnDisconnect.setClickable(true);
+//        btnConnect.setClickable(false);
+//        btnDisconnect.setClickable(true);
 
         vc = new Connector(videoFrame, Connector.ConnectorViewStyle.VIDYO_CONNECTORVIEWSTYLE_Default, 15, "warning info@VidyoClient info@VidyoConnector", "", 0);
         vc.showViewAt(videoFrame, 0, 0, videoFrame.getWidth(), videoFrame.getHeight());
 
-        String token = "cHJvdmlzaW9uAGphbmVsbGVAZjEwYjhiLnZpZHlvLmlvADYzNzY1MzMyNDI5AAAwMjYyM2U2NWNhMzhkOTY5N2MxMTY0ZTQ4ZTUzNTM5ZDNlZGNiOTFkYzhkMjlmNWYwMGM2NWM0YjAyNzg2OGVmYzlkNjQxMGUyZmM5MDYyMjYyMTQ3MDA5YzM5OGEzZTk=";
+        String token = "cHJvdmlzaW9uAHVzZXIxQGYxMGI4Yi52aWR5by5pbwA2Mzc2NTQxMzg5NAAANWViNDQ4NjZjYTI3NzA4NzkwZjFiNTk2OGYwNTllYTdmOTAyMGMwZmEwNmU1OTc3ZTY3MDc5MmUyNjdmYjZjOGMxMzhlNDI0MmMxNTc5ZGNlMjRiMDJlNDEzOTI2YmM4";
         vc.connect("prod.vidyo.io", token, "Janelle", "DemoRoom", this);
 
 //        Janelle is the display name, this can be dynamic
@@ -94,7 +94,7 @@ public class VideoActivity extends AppCompatActivity implements Connector.IConne
             // Request for camera permission.
             if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Log.d("VideoActivity", "Camera granted");
-                findViewById(R.id.btn_vid_connect).setClickable(true);
+//                findViewById(R.id.btn_vid_connect).setClickable(true);
             }
         }
     }
