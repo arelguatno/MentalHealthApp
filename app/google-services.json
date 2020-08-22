@@ -1,58 +1,37 @@
 {
   "project_info": {
-    "project_number": "515432095675",
-    "firebase_url": "https://happy-mind-app.firebaseio.com",
-    "project_id": "happy-mind-app",
-    "storage_bucket": "happy-mind-app.appspot.com"
+    "project_number": "924924255963",
+    "firebase_url": "https://happy-mind-91c8c.firebaseio.com",
+    "project_id": "happy-mind-91c8c",
+    "storage_bucket": "happy-mind-91c8c.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:515432095675:android:7c03a1bb5d727dc6022e9e",
-        "android_client_info": {
-          "package_name": "com.dmjp.happymind"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "515432095675-4rb4h93for6hp5oms5abmqvknpgg8ord.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.dmjp.happymind",
-            "certificate_hash": "3d8c95921e9f51d226a894ebe9259883f2e35c24"
-          }
-        },
-        {
-          "client_id": "515432095675-71a9941k4g488ba3798pa79p3bvledtg.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAAKVD_laJSFJYEd0LdchaTXBlB7FTRbVY"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "515432095675-71a9941k4g488ba3798pa79p3bvledtg.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:515432095675:android:f660335c99c7e7df022e9e",
+        "mobilesdk_app_id": "1:924924255963:android:dcf00aea07743c1c1376fe",
         "android_client_info": {
           "package_name": "com.example.mentalhealthapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "515432095675-btcpa20vr5bbmgn8lcp6vdbrgtrtq12n.apps.googleusercontent.com",
+          "client_id": "924924255963-4d9juogjoarafebro8d2m3l6cdgag89g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mentalhealthapp",
+            "certificate_hash": "79c7a897b77782e858340442e175acff3b39eed6"
+          }
+        },
+        {
+          "client_id": "924924255963-vvp5ev7ln5o70lsca4hn2thqv901msbt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mentalhealthapp",
+            "certificate_hash": "3d8c95921e9f51d226a894ebe9259883f2e35c24"
+          }
+        },
+        {
+          "client_id": "924924255963-toclih29jj19ti8i33ojalv2eqcif6vn.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.mentalhealthapp",
@@ -60,20 +39,20 @@
           }
         },
         {
-          "client_id": "515432095675-71a9941k4g488ba3798pa79p3bvledtg.apps.googleusercontent.com",
+          "client_id": "924924255963-6ctnpan2m7qgmqrmtegboq417hvf2gdr.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAAKVD_laJSFJYEd0LdchaTXBlB7FTRbVY"
+          "current_key": "AIzaSyBsaFoyMswR2o8WtQP59QFK9Sdk1R8gEk4"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "515432095675-71a9941k4g488ba3798pa79p3bvledtg.apps.googleusercontent.com",
+              "client_id": "924924255963-6ctnpan2m7qgmqrmtegboq417hvf2gdr.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

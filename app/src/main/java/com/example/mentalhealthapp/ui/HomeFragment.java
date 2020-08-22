@@ -30,6 +30,7 @@ public class HomeFragment extends Fragment {
     RecyclerView recyclerView;
     ArrayList<AppointmentModel> appointmentsArrayList;
 
+//    Button
 
     // Carousel Images
     int[] sampleImages = {R.drawable.image_1, R.drawable.image_2, R.drawable.image_3, R.drawable.image_4};
@@ -112,6 +113,8 @@ public class HomeFragment extends Fragment {
 
         AppointmentAdapter adapter = new AppointmentAdapter(v.getContext(), appointmentsArrayList);
         recyclerView.setAdapter(adapter);
+
+
     }
 
     ImageListener imageListener = new ImageListener() {

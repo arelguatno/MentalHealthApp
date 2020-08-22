@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'com.google.firebase.firebase-perf'
 
 android {
     compileSdkVersion 30
@@ -19,6 +20,12 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
         }
     }
 }
@@ -43,7 +50,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore:21.5.0'
     implementation 'com.google.firebase:firebase-crashlytics:17.2.1'
     implementation 'com.google.android.gms:play-services-auth:18.1.0'
+    implementation 'com.google.firebase:firebase-perf:19.0.8'
 
-    compile 'com.synnapps:carouselview:0.1.5'
+    implementation 'com.synnapps:carouselview:0.1.5'
 
 }
