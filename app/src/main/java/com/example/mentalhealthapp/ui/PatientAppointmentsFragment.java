@@ -19,7 +19,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mentalhealthapp.R;
 import com.example.mentalhealthapp.adapters.DoctorsListAdapter;
+import com.example.mentalhealthapp.adapters.PatientListAdapter;
 import com.example.mentalhealthapp.java_objects.DoctorListItemModel;
+import com.example.mentalhealthapp.java_objects.PatientListItemModel;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -65,6 +67,16 @@ public class PatientAppointmentsFragment extends Fragment {
         };
 
         // Prepares the patient list model
+        ArrayList<PatientListItemModel> patientList = new ArrayList<>();
+        patientList.add(new PatientListItemModel("", "Alden Richards", "3:00 PM"));
+        patientList.add(new PatientListItemModel("", "Liza Soberano", "4:00 PM"));
+
+        recyclerView = v.findViewById(R.id.patientListRecyclerView);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(getContext());
+        adapter = new PatientListAdapter(patientList);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
 
         return v;
     }
