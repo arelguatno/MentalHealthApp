@@ -1,10 +1,13 @@
 package com.example.mentalhealthapp.ui;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,6 +22,15 @@ import com.example.mentalhealthapp.adapters.FeaturedListCustomAdapter;
 import com.example.mentalhealthapp.adapters.RecommendedListCustomAdapter;
 import com.example.mentalhealthapp.java_objects.AppointmentModel;
 import com.example.mentalhealthapp.java_objects.RecommendedListModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 
@@ -29,7 +41,11 @@ public class HomeFragment extends Fragment {
     ArrayList<RecommendedListModel> arrayList;
     RecyclerView recyclerView;
     ArrayList<AppointmentModel> appointmentsArrayList;
+    FirebaseFirestore db;
 
+    private static final String TAG = "HomeFragment";
+    private FirebaseAuth mAuth;
+    public ProgressDialog mProgressDialog;
 
     // Carousel Images
     int[] sampleImages = {R.drawable.image_1, R.drawable.image_2, R.drawable.image_3, R.drawable.image_4};
@@ -50,6 +66,10 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_home, container, false);
+        showProgressDialog("Please wait...");
+
+        db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 
         // Image slider
         carouselView = (CarouselView) v.findViewById(R.id.carouselView);
@@ -63,6 +83,8 @@ public class HomeFragment extends Fragment {
         populateList(v, R.id.recycler_view, recommended_icons, recommended_iconsName);
         //Featured
         populateList(v, R.id.recycler_view_2, featured_icons, featured_iconsName);
+
+        getDisplayName(v);
 
         return v;
     }
@@ -112,6 +134,8 @@ public class HomeFragment extends Fragment {
 
         AppointmentAdapter adapter = new AppointmentAdapter(v.getContext(), appointmentsArrayList);
         recyclerView.setAdapter(adapter);
+
+
     }
 
     ImageListener imageListener = new ImageListener() {
@@ -120,4 +144,52 @@ public class HomeFragment extends Fragment {
             imageView.setImageResource(sampleImages[position]);
         }
     };
+
+    private void getDisplayName(final View v){
+        FirebaseUser user = mAuth.getCurrentUser();
+        final TextView labelName = v.findViewById(R.id.welcome_label);
+
+        DocumentReference docRef = db.collection("users").document(mAuth.getUid());
+        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    Log.w(TAG, "Listen failed.", e);
+                    return;
+                }
+
+                if (snapshot != null && snapshot.exists()) {
+                    labelName.setText("Welcome back, " + snapshot.getString("display_name") + "!");
+                    hideProgressDialog();
+                } else {
+                    Log.d(TAG, "Current data: null");
+                    labelName.setText("Welcome back!");
+                    hideProgressDialog();
+                }
+            }
+        });
+    }
+
+    public void showProgressDialog(String message) {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(getContext());
+            mProgressDialog.setMessage(message);
+            mProgressDialog.setIndeterminate(true);
+            mProgressDialog.setCancelable(false);
+        }
+
+        mProgressDialog.show();
+    }
+
+    public void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        hideProgressDialog();
+    }
 }

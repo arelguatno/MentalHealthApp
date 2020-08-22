@@ -1,5 +1,6 @@
 package com.example.mentalhealthapp.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.mentalhealthapp.R;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class ProfileFragment extends Fragment {
 
@@ -24,10 +29,20 @@ public class ProfileFragment extends Fragment {
             phoneNumField, emailField;
     TextView viewConsultationHistoryLink, signOutLink;
 
+    private GoogleSignInClient mGoogleSignInClient;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_profile, container,false);
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(getContext(), gso);
+
 
         // Initializes the edit texts
         firstNameField = (EditText) v.findViewById(R.id.first_name_field);
@@ -103,10 +118,20 @@ public class ProfileFragment extends Fragment {
         signOutLink = (TextView) v.findViewById(R.id.log_out_link);
         signOutLink.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Sign out clicked", Toast.LENGTH_LONG).show();
+                FirebaseAuth.getInstance().signOut();
+                mGoogleSignInClient.signOut();
+                navigateToLogInScreen();
             }
         });
 
         return v;
     }
+
+    private void navigateToLogInScreen(){
+        Intent intent = new Intent(getContext(), LoginHomeScreen.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        getActivity().finish();
+    }
+
 }
