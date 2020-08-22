@@ -3,6 +3,8 @@ package com.example.mentalhealthapp.ui;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -88,6 +90,16 @@ public class CreateAccount extends AppCompatActivity {
                                         @Override
                                         public void onSuccess(Void aVoid) {
                                             Log.d(TAG, "DocumentSnapshot successfully written!");
+
+                                            Context context = getApplicationContext();
+                                            CharSequence text = "Sign up Success!";
+                                            int duration = Toast.LENGTH_SHORT;
+
+                                            Toast toast = Toast.makeText(context, text, duration);
+                                            toast.show();
+
+                                            Intent intent = new Intent(CreateAccount.this, MainActivity.class);
+                                            startActivity(intent);
                                         }
                                     }).addOnFailureListener(new OnFailureListener() {
                                 @Override
@@ -109,6 +121,5 @@ public class CreateAccount extends AppCompatActivity {
                     }
                 });
     }
-
 
 }
