@@ -28,7 +28,7 @@ public class DoctorsListAdapter extends RecyclerView.Adapter<DoctorsListAdapter.
             mImageView = itemView.findViewById(R.id.imageView2);
             docName = itemView.findViewById(R.id.textView3);
             rating = itemView.findViewById(R.id.textView4);
-            time = itemView.findViewById(R.id.textView5);
+            time = itemView.findViewById(R.id.textView6);
         }
     }
 
