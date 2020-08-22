@@ -43,5 +43,9 @@
     //List of Patient Appointments
     <string name="view_list_of_appointments">View list of appointments</string>
     <string name="patient_list_date_placeholder">DATE_TODAY</string>
+    <string name="patient_display_name_placeholder">DISPLAY_NAME</string>
+    <string name="patient_appointment_time_placeholder">12:00 AM</string>
+    <string name="patient_view_profile">View Profile</string>
+    <string name="meet">Meet</string>
 
 </resources>

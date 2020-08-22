@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mentalhealthapp.R;
 import com.example.mentalhealthapp.java_objects.AppointmentModel;
 import com.example.mentalhealthapp.ui.SplashScreen;
+import com.example.mentalhealthapp.ui.VideoActivity;
 
 import java.util.ArrayList;
 
@@ -42,10 +43,8 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "Click Click!", Toast.LENGTH_SHORT).show();
-
-//                Intent i = new Intent(context, SplashScreen.class);
-//                context.startActivity(i);
+                Intent i = new Intent(context, VideoActivity.class);
+                context.startActivity(i);
             }
         });
     }

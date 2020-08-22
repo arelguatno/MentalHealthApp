@@ -33,6 +33,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
+import static com.example.mentalhealthapp.utility.Constants.DISPLAY_NAME;
 
 import java.util.ArrayList;
 
@@ -155,14 +156,17 @@ public class HomeFragment extends Fragment {
             public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException e) {
                 if (e != null) {
                     Log.w(TAG, "Listen failed.", e);
+                    DISPLAY_NAME = "No_Name";
                     return;
                 }
 
                 if (snapshot != null && snapshot.exists()) {
-                    labelName.setText("Welcome back, " + snapshot.getString("display_name") + "!");
+                    DISPLAY_NAME = snapshot.getString("display_name");
+                    labelName.setText("Welcome back, " + DISPLAY_NAME + "!");
                     hideProgressDialog();
                 } else {
                     Log.d(TAG, "Current data: null");
+                    DISPLAY_NAME = "No_Name";
                     labelName.setText("Welcome back!");
                     hideProgressDialog();
                 }

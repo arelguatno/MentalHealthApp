@@ -55,6 +55,11 @@ public class ConsultationFragment extends Fragment {
                         // Book an Appointment
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                                 new BookAnAppointmentFragment()).commit();
+
+
+                        // NOTE: Comment this out to test out the fragment for Patient Appointment List
+                        /*getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                                new PatientAppointmentsFragment()).commit();*/
                         break;
                     case 2:
                         // Consult therapist
