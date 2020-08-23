@@ -4,7 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     tools:context=".ui.CreateAccount">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"/>
 
     <EditText
         android:id="@+id/first_name_txt"
@@ -88,25 +93,14 @@
         app:layout_constraintHorizontal_bias="0.512"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.585" />
-
-    <CheckBox
-        android:id="@+id/checkBox2"
-        android:layout_width="288dp"
-        android:layout_height="wrap_content"
-        android:text="@string/data_collection"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.512"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.666" />
+        app:layout_constraintVertical_bias="0.582" />
 
     <Button
         android:id="@+id/signup_button"
         android:layout_width="288dp"
         android:layout_height="50dp"
-        android:layout_marginTop="528dp"
+        android:layout_marginTop="476dp"
+        android:background="@drawable/email_password_button"
         android:onClick="signupButton"
         android:text="@string/sign_up_button"
         app:layout_constraintEnd_toEndOf="parent"
