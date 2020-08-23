@@ -1,22 +1,15 @@
 package com.example.mentalhealthapp.repository;
 
-import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.example.mentalhealthapp.java_objects.UserModel;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
-
 
 public class UserProfileRepository {
 
@@ -25,7 +18,8 @@ public class UserProfileRepository {
         void onFailure(String errorMsg);
     }
 
-    public UserModel getUserProfile(final UserProfileCallback callback) {
+    /* Fetches user data from Firestore */
+    public void getUserProfile(final UserProfileCallback callback) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final UserModel profile = new UserModel();
@@ -60,8 +54,6 @@ public class UserProfileRepository {
                         callback.onFailure("Error occurred while connecting to the database");
                     }
                 });
-
-        return profile;
     }
 
 }
