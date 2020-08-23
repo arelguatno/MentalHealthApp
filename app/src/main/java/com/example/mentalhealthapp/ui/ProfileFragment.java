@@ -22,6 +22,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class ProfileFragment extends Fragment {
 
     Button editPersonalDetailsBtn, savePersonalDetailsBtn,
@@ -30,6 +32,7 @@ public class ProfileFragment extends Fragment {
     EditText firstNameField, lastNameField,
             phoneNumField, emailField;
     TextView displayNameLabel, viewConsultationHistoryLink, signOutLink;
+    CircleImageView profilePicImageView;
 
     private GoogleSignInClient mGoogleSignInClient;
     private UserProfileRepository repository;
@@ -46,7 +49,8 @@ public class ProfileFragment extends Fragment {
 
         mGoogleSignInClient = GoogleSignIn.getClient(getContext(), gso);
 
-        // Initializes the labels and edit texts
+        // Initializes the essential UI elements of this fragment
+        profilePicImageView = (CircleImageView) v.findViewById(R.id.profile_image);
         displayNameLabel = (TextView) v.findViewById(R.id.display_name);
         firstNameField = (EditText) v.findViewById(R.id.first_name_field);
         lastNameField = (EditText) v.findViewById(R.id.last_name_field);
