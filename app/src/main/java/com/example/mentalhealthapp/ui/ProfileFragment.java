@@ -51,8 +51,10 @@ public class ProfileFragment extends Fragment {
 
     EditText firstNameField, lastNameField,
             phoneNumField, emailField;
-    TextView displayNameLabel, viewConsultationHistoryLink, signOutLink, uploadPhotoLink;
+    TextView displayNameLabel, viewConsultationHistoryLink, signOutLink,
+            uploadPhotoLink, savePhotoLink;
     CircleImageView profilePicImageView;
+    Uri profilePicUri;
 
     private GoogleSignInClient mGoogleSignInClient;
     private UserProfileRepository repository;
@@ -119,6 +121,15 @@ public class ProfileFragment extends Fragment {
                 showFileChooser();
             }
         });
+
+        /* SAVE PHOTO clicked */
+        savePhotoLink = (TextView) v.findViewById(R.id.save_photo_link);
+        savePhotoLink.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+                //TO-DO: Save image to Cloud Storage and URL to Firestore
+             }
+         });
 
         /* Edit PERSONAL DETAILS clicked */
         editPersonalDetailsBtn = (Button) v.findViewById(R.id.edit_personal_details_btn);
@@ -209,31 +220,29 @@ public class ProfileFragment extends Fragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Choose Image Source");
         builder.setItems(new CharSequence[] { "Gallery", "Camera" },
-                new DialogInterface.OnClickListener() {
+            new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which) {
+                        case 0:
+                            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                            intent.setType("image/*");
 
-                    @Override
-                    public void onClick(DialogInterface dialog,
-                                        int which) {
-                        switch (which) {
-                            case 0:
-                                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                                intent.setType("image/*");
+                            Intent chooser = Intent.createChooser(intent, "Choose a Picture");
+                            startActivityForResult(chooser, Constants.ACTION_REQUEST_GALLERY);
+                            break;
 
-                                Intent chooser = Intent.createChooser(intent, "Choose a Picture");
-                                startActivityForResult(chooser, Constants.ACTION_REQUEST_GALLERY);
-                                break;
+                        case 1:
+                            Intent cameraIntent = new Intent(
+                                    android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                            startActivityForResult(cameraIntent, Constants.ACTION_REQUEST_CAMERA);
+                            break;
 
-                            case 1:
-                                Intent cameraIntent = new Intent(
-                                        android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                                startActivityForResult(cameraIntent, Constants.ACTION_REQUEST_CAMERA);
-                                break;
-
-                            default:
-                                break;
-                        }
+                        default:
+                            break;
                     }
-                });
+                }
+            });
 
         builder.show();
         dialog.dismiss();
@@ -245,10 +254,13 @@ public class ProfileFragment extends Fragment {
 
         if (resultCode == getActivity().RESULT_OK) {
             if (requestCode == Constants.ACTION_REQUEST_GALLERY) {
-                Uri path = data.getData();
+                profilePicUri = data.getData();
                 try {
                     // Tries to render the image from gallery to the image view
-                    profilePicImageView.setImageBitmap(MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), path));
+                    profilePicImageView.setImageBitmap(MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), profilePicUri));
+                    // Gives an option to save the changes
+                    uploadPhotoLink.setVisibility(View.GONE);
+                    savePhotoLink.setVisibility(View.VISIBLE);
                 } catch (IOException e) {
                     e.printStackTrace();
                     // Put back the anonymous profile placeholder in case something goes wrong
@@ -257,6 +269,9 @@ public class ProfileFragment extends Fragment {
             } else if (requestCode == Constants.ACTION_REQUEST_CAMERA) {
                 Bitmap capturedPhoto = (Bitmap) data.getExtras().get("data");
                 profilePicImageView.setImageBitmap(capturedPhoto);
+                // Gives an option to save the changes
+                uploadPhotoLink.setVisibility(View.GONE);
+                savePhotoLink.setVisibility(View.VISIBLE);
             }
         }
     }
