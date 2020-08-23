@@ -9,14 +9,14 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="201dp"
-        android:layout_height="165dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="68dp"
+        android:background="@drawable/sample_logo_2"
         android:contentDescription="@string/logo_description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/create_account_button"
@@ -26,6 +26,7 @@
         android:textAllCaps="false"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
+        android:textStyle="bold"
         android:text="@string/create_account_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -43,6 +44,7 @@
         android:layout_marginRight="20dp"
         android:onClick="onClick"
         android:textAllCaps="false"
+        android:textStyle="bold"
         android:text="@string/login_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
