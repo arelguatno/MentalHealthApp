@@ -41,6 +41,9 @@
             android:layout_marginTop="12dp"
             android:background="@drawable/email_password_button"
             android:onClick="signIn"
+            android:textStyle="bold"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
             android:text="@string/action_sign_in_short" />
     </LinearLayout>
 
