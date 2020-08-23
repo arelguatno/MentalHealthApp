@@ -55,18 +55,18 @@
         app:layout_constraintStart_toEndOf="@+id/remember_me_cb"
         app:layout_constraintTop_toBottomOf="@+id/password_text" />
 
-    <Button
-        android:id="@+id/fb_signin_btn"
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/fb_login_button"
         android:layout_width="325dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="37dp"
-        android:layout_marginBottom="372dp"
-        android:text="@string/facebook_signin_button"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="14dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/google_sign_in"
-        app:layout_constraintVertical_bias="0.172" />
+        app:layout_constraintVertical_bias="0.022" />
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/google_sign_in"

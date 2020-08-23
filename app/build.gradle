@@ -52,6 +52,9 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:18.1.0'
     implementation 'com.google.firebase:firebase-perf:19.0.8'
 
+    //Facebook SDK
+    implementation 'com.facebook.android:facebook-android-sdk:5.15.3'
+
     implementation 'com.synnapps:carouselview:0.1.5'
 
 }
