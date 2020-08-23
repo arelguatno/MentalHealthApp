@@ -49,7 +49,7 @@ public class HomeFragment extends Fragment {
     public ProgressDialog mProgressDialog;
 
     // Carousel Images
-    int[] sampleImages = {R.drawable.image_1, R.drawable.image_2, R.drawable.image_3, R.drawable.image_4};
+    int[] sampleImages = {R.drawable.image_4, R.drawable.image_2, R.drawable.image_3, R.drawable.image_1};
 
     // Appointments
     String[] appointments_sample = {"August 22, 2020"};

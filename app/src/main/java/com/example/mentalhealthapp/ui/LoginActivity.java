@@ -2,6 +2,7 @@ package com.example.mentalhealthapp.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
 import android.content.Intent;
@@ -53,6 +54,15 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        // Tool Bar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Login");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         // [START config_signin]
         // Configure Google Sign In
@@ -111,7 +121,12 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-    
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
 
     @Override
     public void onStart() {

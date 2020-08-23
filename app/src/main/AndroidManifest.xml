@@ -24,7 +24,11 @@
             android:value="true" />
         <activity
             android:name=".ui.LoginActivity"
-            android:label="@string/title_activity_login" />
+            android:label="@string/title_activity_login">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.LoginHomeScreen" />
+        </activity>
         <meta-data android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"/>
 
@@ -43,7 +47,12 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.CreateAccount" />
+        <activity android:name=".ui.CreateAccount">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.LoginHomeScreen" />
+        </activity>
+
         <activity android:name=".ui.LoginHomeScreen" />
         <activity android:name=".ui.SplashScreen">
 
