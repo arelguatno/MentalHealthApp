@@ -15,6 +15,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.mentalhealthapp.R;
+import com.example.mentalhealthapp.java_objects.UserModel;
+import com.example.mentalhealthapp.repository.UserProfileRepository;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -27,9 +29,10 @@ public class ProfileFragment extends Fragment {
 
     EditText firstNameField, lastNameField,
             phoneNumField, emailField;
-    TextView viewConsultationHistoryLink, signOutLink;
+    TextView displayNameLabel, viewConsultationHistoryLink, signOutLink;
 
     private GoogleSignInClient mGoogleSignInClient;
+    private UserProfileRepository repository;
 
     @Nullable
     @Override
@@ -43,12 +46,31 @@ public class ProfileFragment extends Fragment {
 
         mGoogleSignInClient = GoogleSignIn.getClient(getContext(), gso);
 
-
-        // Initializes the edit texts
+        // Initializes the labels and edit texts
+        displayNameLabel = (TextView) v.findViewById(R.id.display_name);
         firstNameField = (EditText) v.findViewById(R.id.first_name_field);
         lastNameField = (EditText) v.findViewById(R.id.last_name_field);
         phoneNumField = (EditText) v.findViewById(R.id.mobile_number_field);
         emailField = (EditText) v.findViewById(R.id.email_field);
+
+        // Fetch user details from database
+        repository = new UserProfileRepository();
+        repository.getUserProfile(new UserProfileRepository.UserProfileCallback() {
+            @Override
+            public void onSuccess(UserModel value) {
+                // Populates the fields with the current user data
+                displayNameLabel.setText(value.getDisplay_name());
+                firstNameField.setText(value.getFirst_name());
+                lastNameField.setText(value.getLast_name());
+                phoneNumField.setText(value.getMobile_number());
+                emailField.setText(value.getEmail());
+            }
+
+            @Override
+            public void onFailure(String errorMsg){
+                Toast.makeText(getContext(), errorMsg, Toast.LENGTH_LONG).show();
+            }
+        });
 
         /* Edit PERSONAL DETAILS clicked */
         editPersonalDetailsBtn = (Button) v.findViewById(R.id.edit_personal_details_btn);
