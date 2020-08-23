@@ -3,16 +3,16 @@ package com.example.mentalhealthapp.java_objects;
 public class UserModel {
 
     String image;
-    String uid, date_creation;
+    String uid, date_created;
     String display_name, first_name, last_name;
     String mobile_number, email;
     boolean isADoctor;
 
     public UserModel() {}
 
-    public UserModel(String image, String uid, String date_creation, String display_name, String first_name, String last_name, String mobile_number, String email, boolean isADoctor) {
+    public UserModel(String image, String uid, String date_created, String display_name, String first_name, String last_name, String mobile_number, String email, boolean isADoctor) {
         this.uid = uid;
-        this.date_creation = date_creation;
+        this.date_created = date_created;
         this.image = image;
         this.display_name = display_name;
         this.first_name = first_name;
@@ -38,12 +38,12 @@ public class UserModel {
         this.uid = uid;
     }
 
-    public String getDate_creation() {
-        return date_creation;
+    public String getDate_created() {
+        return date_created;
     }
 
-    public void setDate_creation(String date_creation) {
-        this.date_creation = date_creation;
+    public void setDate_created(String date_created) {
+        this.date_created = date_created;
     }
 
     public String getDisplay_name() {

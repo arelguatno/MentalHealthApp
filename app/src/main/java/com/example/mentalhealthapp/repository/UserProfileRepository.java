@@ -34,7 +34,7 @@ public class UserProfileRepository {
                         if (document.exists()) {
                             profile.setUid(user.getUid());
                             profile.setImage(document.get("image").toString());
-                            profile.setDate_creation(document.get("dateCreation").toString());
+                            profile.setDate_created(document.get("dateCreated").toString());
                             profile.setDisplay_name(document.get("display_name").toString());
                             profile.setFirst_name(document.get("first_name").toString());
                             profile.setLast_name(document.get("last_name").toString());
