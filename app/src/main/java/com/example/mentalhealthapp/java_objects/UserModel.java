@@ -2,16 +2,18 @@ package com.example.mentalhealthapp.java_objects;
 
 public class UserModel {
 
-    int image;
+    String image;
     String uid, date_creation;
     String display_name, first_name, last_name;
     String mobile_number, email;
     boolean isADoctor;
 
-    public UserModel(int image, String uid, String date_creation, String display_name, String first_name, String last_name, String mobile_number, String email, boolean isADoctor) {
-        this.image = image;
+    public UserModel() {}
+
+    public UserModel(String image, String uid, String date_creation, String display_name, String first_name, String last_name, String mobile_number, String email, boolean isADoctor) {
         this.uid = uid;
         this.date_creation = date_creation;
+        this.image = image;
         this.display_name = display_name;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -20,11 +22,11 @@ public class UserModel {
         this.isADoctor = isADoctor;
     }
 
-    public int getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(int image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
