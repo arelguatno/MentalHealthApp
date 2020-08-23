@@ -12,14 +12,39 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- PROFILE PIC -->
-        <de.hdodenhof.circleimageview.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/profile_image"
-            android:layout_width="192dp"
-            android:layout_height="192dp"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:layout_gravity="center"
-            android:src="@drawable/profile_photo_placeholder" />
+            android:orientation="vertical">
+
+            <!-- PROFILE PIC -->
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profile_image"
+                android:layout_width="192dp"
+                android:layout_height="192dp"
+                android:layout_gravity="center"
+                android:src="@drawable/profile_photo_placeholder" />
+
+            <!-- UPLOAD_PHOTO -->
+            <TextView
+                android:id="@+id/upload_photo_link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textSize="14sp"
+                android:background="@color/browser_actions_bg_grey"
+                android:text="@string/upload_photo"
+                android:layout_gravity="right"
+                android:textAlignment="gravity"
+                android:clickable="true"
+                android:focusable="true"
+                android:textColor="@android:color/darker_gray" />
+
+        </LinearLayout>
+
 
 
         <!-- DISPLAY NAME -->
@@ -269,7 +294,7 @@
                     android:textStyle="italic"
                     android:textColor="@android:color/darker_gray" />
 
-                <!-- EMAIL -->
+                <!-- VIEW CONSULTATION HISTORY -->
                 <TextView
                     android:id="@+id/view_consultation_details_link"
                     android:layout_width="0dp"

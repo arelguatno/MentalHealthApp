@@ -1,26 +1,46 @@
 package com.example.mentalhealthapp.ui;
 
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.ComponentName;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.example.mentalhealthapp.R;
 import com.example.mentalhealthapp.java_objects.UserModel;
 import com.example.mentalhealthapp.repository.UserProfileRepository;
+import com.example.mentalhealthapp.utility.Constants;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -31,7 +51,7 @@ public class ProfileFragment extends Fragment {
 
     EditText firstNameField, lastNameField,
             phoneNumField, emailField;
-    TextView displayNameLabel, viewConsultationHistoryLink, signOutLink;
+    TextView displayNameLabel, viewConsultationHistoryLink, signOutLink, uploadPhotoLink;
     CircleImageView profilePicImageView;
 
     private GoogleSignInClient mGoogleSignInClient;
@@ -62,6 +82,21 @@ public class ProfileFragment extends Fragment {
         repository.getUserProfile(new UserProfileRepository.UserProfileCallback() {
             @Override
             public void onSuccess(UserModel value) {
+                // Renders profile photo (if exists)
+                if (!value.getImage().isEmpty()){
+                    Picasso.get().load(value.getImage()).into(profilePicImageView, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            // Do nothing
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+                            // Put back the anonymous profile placeholder in case something goes wrong
+                            profilePicImageView.setImageResource(R.drawable.profile_photo_placeholder);
+                        }
+                    });
+                }
                 // Populates the fields with the current user data
                 displayNameLabel.setText(value.getDisplay_name());
                 firstNameField.setText(value.getFirst_name());
@@ -73,6 +108,15 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onFailure(String errorMsg){
                 Toast.makeText(getContext(), errorMsg, Toast.LENGTH_LONG).show();
+            }
+        });
+
+        /* UPLOAD PHOTO clicked */
+        uploadPhotoLink = (TextView) v.findViewById(R.id.upload_photo_link);
+        uploadPhotoLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showFileChooser();
             }
         });
 
@@ -158,6 +202,63 @@ public class ProfileFragment extends Fragment {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         getActivity().finish();
+    }
+
+    private void showFileChooser() {
+        Dialog dialog = new Dialog(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Choose Image Source");
+        builder.setItems(new CharSequence[] { "Gallery", "Camera" },
+                new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog,
+                                        int which) {
+                        switch (which) {
+                            case 0:
+                                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                                intent.setType("image/*");
+
+                                Intent chooser = Intent.createChooser(intent, "Choose a Picture");
+                                startActivityForResult(chooser, Constants.ACTION_REQUEST_GALLERY);
+                                break;
+
+                            case 1:
+                                Intent cameraIntent = new Intent(
+                                        android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                                startActivityForResult(cameraIntent, Constants.ACTION_REQUEST_CAMERA);
+                                break;
+
+                            default:
+                                break;
+                        }
+                    }
+                });
+
+        builder.show();
+        dialog.dismiss();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == getActivity().RESULT_OK) {
+            if (requestCode == Constants.ACTION_REQUEST_GALLERY) {
+                Uri path = data.getData();
+                try {
+                    // Tries to render the image from gallery to the image view
+                    profilePicImageView.setImageBitmap(MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), path));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    // Put back the anonymous profile placeholder in case something goes wrong
+                    profilePicImageView.setImageResource(R.drawable.profile_photo_placeholder);
+                }
+            } else if (requestCode == Constants.ACTION_REQUEST_CAMERA) {
+                Bitmap capturedPhoto = (Bitmap) data.getExtras().get("data");
+                profilePicImageView.setImageBitmap(capturedPhoto);
+            }
+        }
     }
 
 }
