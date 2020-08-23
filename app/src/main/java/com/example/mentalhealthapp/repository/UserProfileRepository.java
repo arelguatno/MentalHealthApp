@@ -27,22 +27,18 @@ public class UserProfileRepository {
 
     public UserModel getUserProfile(final UserProfileCallback callback) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        final String uid = user.getUid();
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final UserModel profile = new UserModel();
 
-        DocumentReference docRef = db.collection("users").document(uid);
-
         db.collection("users")
-                //.document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .document(uid)
+                .document(user.getUid())
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot document) {
 
                         if (document.exists()) {
-                            profile.setUid(uid);
+                            profile.setUid(user.getUid());
                             profile.setImage(document.get("image").toString());
                             profile.setDate_creation(document.get("dateCreation").toString());
                             profile.setDisplay_name(document.get("display_name").toString());
