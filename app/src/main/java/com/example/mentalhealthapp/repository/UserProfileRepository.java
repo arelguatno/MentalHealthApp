@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 
 import com.example.mentalhealthapp.java_objects.UserModel;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -19,7 +21,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 public class UserProfileRepository {
 
     public interface UserProfileCallback {
-        void onCallback(UserModel value);
+        void onSuccess(UserModel value);
+        void onFailure(String errorMsg);
     }
 
     public UserModel getUserProfile(final UserProfileCallback callback) {
@@ -34,11 +37,11 @@ public class UserProfileRepository {
                 //.document(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .document(uid)
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        DocumentSnapshot document = task.getResult();
-                        if (task.isSuccessful()) {
+                    public void onSuccess(DocumentSnapshot document) {
+
+                        if (document.exists()) {
                             profile.setUid(uid);
                             profile.setImage(document.get("image").toString());
                             profile.setDate_creation(document.get("dateCreation").toString());
@@ -48,11 +51,17 @@ public class UserProfileRepository {
                             profile.setMobile_number(document.get("mobile_number").toString());
                             profile.setEmail(document.get("email").toString());
                             profile.setToDoctor(Boolean.parseBoolean(document.get("isADoctor").toString()));
-                        } else {
-                            Log.d(this.getClass().getName(), "Error fetching user profile");
+
+                            callback.onSuccess(profile);
+                        }else{
+                            callback.onFailure("Problem occurred while fetching user data");
                         }
 
-                        callback.onCallback(profile);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        callback.onFailure("Error occurred while connecting to the database");
                     }
                 });
 

@@ -57,13 +57,18 @@ public class ProfileFragment extends Fragment {
         repository = new UserProfileRepository();
         repository.getUserProfile(new UserProfileRepository.UserProfileCallback() {
             @Override
-            public void onCallback(UserModel value) {
+            public void onSuccess(UserModel value) {
                 // Populates the fields with the current user data
                 displayNameLabel.setText(value.getDisplay_name());
                 firstNameField.setText(value.getFirst_name());
                 lastNameField.setText(value.getLast_name());
                 phoneNumField.setText(value.getMobile_number());
                 emailField.setText(value.getEmail());
+            }
+
+            @Override
+            public void onFailure(String errorMsg){
+                Toast.makeText(getContext(), errorMsg, Toast.LENGTH_LONG).show();
             }
         });
 
