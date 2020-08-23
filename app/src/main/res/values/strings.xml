@@ -29,6 +29,7 @@
     //Profile
     <string name="display_name_value_placeholder">DISPLAY_NAME</string>
     <string name="upload_photo">+ Upload Photo</string>
+    <string name="save_photo">Save Changes</string>
     <string name="personal_details">Personal Details</string>
     <string name="first_name">First Name:</string>
     <string name="first_name_value_placeholder">FIRST_NAME</string>
