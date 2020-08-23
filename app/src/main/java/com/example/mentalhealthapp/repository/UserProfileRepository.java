@@ -62,13 +62,13 @@ public class UserProfileRepository {
                 });
     }
 
-    public void saveProfilePhoto(Uri input, final UserProfileCallback callback){
+    public void saveProfilePhoto(final Uri input, final UserProfileCallback callback){
         // Getting current user's UID
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        final String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         // Getting the input's file extension
         String fileExt = input.toString().substring(input.toString().lastIndexOf(".") + 1);
         // Defining the child of storageReference
-        StorageReference ref = FirebaseStorage.getInstance().getReference()
+        final StorageReference ref = FirebaseStorage.getInstance().getReference()
                 .child("user_profile")
                 .child(uid + "/" + uid + "." + fileExt);
 
@@ -78,8 +78,20 @@ public class UserProfileRepository {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     // Save the Uri to the user profile document in Firestore here
-                    
-                    callback.onSuccess("Profile photo saved successfully");
+                    ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            FirebaseFirestore.getInstance().collection("users")
+                                    .document(uid).update("image", uri.toString());
+
+                            callback.onSuccess("Profile photo saved successfully");
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            callback.onFailure("Error occurred while saving the photo");
+                        }
+                    });
                 }
             })
             .addOnFailureListener(new OnFailureListener() {
