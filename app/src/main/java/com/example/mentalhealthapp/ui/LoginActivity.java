@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -16,6 +17,7 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -32,6 +34,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import java.util.Arrays;
+
 public class LoginActivity extends AppCompatActivity {
 
     // [START declare_auth]
@@ -43,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
 
     //FB sign in
     private CallbackManager mCallbackManager;
+    Button customFGBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,32 +79,37 @@ public class LoginActivity extends AppCompatActivity {
         // [START initialize_fblogin]
         // Initialize Facebook Login button
         mCallbackManager = CallbackManager.Factory.create();
-        LoginButton loginButton = (LoginButton) findViewById(R.id.fb_login_button);
-        loginButton.setReadPermissions("email", "public_profile");
-        loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+        customFGBtn = findViewById(R.id.customFBButton);
+        customFGBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onSuccess(LoginResult loginResult) {
-                Log.d(TAG, "facebook:onSuccess:" + loginResult);
-                handleFacebookAccessToken(loginResult.getAccessToken());
-            }
+            public void onClick(View view) {
+                LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, Arrays.asList("email","public_profile"));
+                LoginManager.getInstance().registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        Log.d(TAG, "facebook:onSuccess:" + loginResult);
+                        handleFacebookAccessToken(loginResult.getAccessToken());
+                    }
 
-            @Override
-            public void onCancel() {
-                Log.d(TAG, "facebook:onCancel");
-                // [START_EXCLUDE]
-               // updateUI(null);
-                // [END_EXCLUDE]
-            }
+                    @Override
+                    public void onCancel() {
+                        Log.d(TAG, "facebook:onCancel");
+                        // [START_EXCLUDE]
+                        // updateUI(null);
+                        // [END_EXCLUDE]
+                    }
 
-            @Override
-            public void onError(FacebookException error) {
-                Log.d(TAG, "facebook:onError", error);
-                // [START_EXCLUDE]
-               // updateUI(null);
-                // [END_EXCLUDE]
+                    @Override
+                    public void onError(FacebookException error) {
+                        Log.d(TAG, "facebook:onError", error);
+                        // [START_EXCLUDE]
+                        // updateUI(null);
+                        // [END_EXCLUDE]
+                    }
+                });
+
             }
         });
-        // [END initialize_fblogin]
     }
     
 
