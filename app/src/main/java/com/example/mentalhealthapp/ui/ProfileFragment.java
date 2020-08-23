@@ -2,6 +2,7 @@ package com.example.mentalhealthapp.ui;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -108,6 +109,11 @@ public class ProfileFragment extends Fragment {
             }
 
             @Override
+            public void onSuccess(String msg) {
+                // Do nothing
+            }
+
+            @Override
             public void onFailure(String errorMsg){
                 Toast.makeText(getContext(), errorMsg, Toast.LENGTH_LONG).show();
             }
@@ -127,7 +133,8 @@ public class ProfileFragment extends Fragment {
         savePhotoLink.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View view) {
-                //TO-DO: Save image to Cloud Storage and URL to Firestore
+                //Save image to Cloud Storage and URL to Firestore
+                uploadImage();
              }
          });
 
@@ -273,6 +280,38 @@ public class ProfileFragment extends Fragment {
                 uploadPhotoLink.setVisibility(View.GONE);
                 savePhotoLink.setVisibility(View.VISIBLE);
             }
+        }
+    }
+
+    private void uploadImage() {
+        if (profilePicUri != null) {
+            // Code for showing progressDialog while uploading
+            final ProgressDialog progressDialog = new ProgressDialog(getContext());
+            progressDialog.setTitle("Uploading...");
+            progressDialog.show();
+
+            UserProfileRepository repository = new UserProfileRepository();
+            repository.saveProfilePhoto(profilePicUri, new UserProfileRepository.UserProfileCallback() {
+                @Override
+                public void onSuccess(UserModel value) {
+                    // Do nothing
+                }
+
+                @Override
+                public void onSuccess(String msg) {
+                    progressDialog.dismiss();
+                    Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void onFailure(String errorMsg) {
+                    progressDialog.dismiss();
+                    Toast.makeText(getContext(), errorMsg, Toast.LENGTH_LONG).show();
+                }
+            });
+
+        }else{
+            Toast.makeText(getContext(), "File cannot be saved", Toast.LENGTH_LONG).show();
         }
     }
 
