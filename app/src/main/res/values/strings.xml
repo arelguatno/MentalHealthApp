@@ -24,6 +24,7 @@
     <string name="login_failed">"Login failed"</string>
     <string name="facebook_app_id">658893611388554</string>
     <string name="fb_login_protocol_scheme">fb658893611388554</string>
+    <string name="upload_text">Upload License</string>
 
 
     //Profile

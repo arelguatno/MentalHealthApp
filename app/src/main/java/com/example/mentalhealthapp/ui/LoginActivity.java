@@ -18,6 +18,7 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.login.Login;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -28,6 +29,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthCredential;
@@ -36,13 +39,18 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
     // [START declare_auth]
     private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
     // [END declare_auth]
     private static final int RC_SIGN_IN = 9001;
     private static final String TAG = "GoogleActivity";
@@ -74,7 +82,12 @@ public class LoginActivity extends AppCompatActivity {
                 .build();
         // [END config_signin]
 
-        mGoogleSignInClient = GoogleSignIn.getClient(LoginActivity.this, gso);
+
+
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+
         SignInButton googleButton = (SignInButton) findViewById(R.id.google_sign_in);
         googleButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,6 +98,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // [START initialize_auth]
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
         // [END initialize_auth]
 
         // [START initialize_fblogin]
@@ -153,6 +167,33 @@ public class LoginActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+
+                            Map<String, Object> dbData = new HashMap<>();
+                            dbData.put("dateCreated", FieldValue.serverTimestamp());
+                            dbData.put("display_name", user.getDisplayName());
+                            dbData.put("first_name", "");
+                            dbData.put("last_name", "");
+                            dbData.put("email", user.getEmail());
+                            dbData.put("image", "");
+                            dbData.put("isADoctor", false);
+                            if(user.getPhoneNumber() == null){ dbData.put("mobile_number", ""); }
+                            else{dbData.put("mobile_number", user.getPhoneNumber());}
+                            db.collection("users").document(user.getUid()).set(dbData)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Log.d(TAG, "DocumentSnapshot successfully written!");
+
+                                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                            startActivity(intent);
+
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w(TAG, "Error writing document", e);
+                                }
+                            });
 
                             //updateUI(user);
                         } else {
@@ -223,6 +264,7 @@ public class LoginActivity extends AppCompatActivity {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 Log.d(TAG, "firebaseAuthWithGoogle:" + account.getId());
                 firebaseAuthWithGoogle(account.getIdToken());
+
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
                 Log.w(TAG, "Google sign in failed", e);
