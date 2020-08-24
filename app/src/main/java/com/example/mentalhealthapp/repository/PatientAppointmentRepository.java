@@ -32,7 +32,7 @@ public class PatientAppointmentRepository {
     }
 
     /* Fetches user data from Firestore */
-    public void getPatientAppointmentList(final PatientAppointmentRepository.FetchPatientAppointmentCallback result) {
+    public void getPatientAppointmentList(final String date, final PatientAppointmentRepository.FetchPatientAppointmentCallback result) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         // Prepares an item model list
@@ -45,11 +45,15 @@ public class PatientAppointmentRepository {
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                         for (DocumentSnapshot doc : value.getDocuments()) {
                             final PatientListItemModel patientAppointment = new PatientListItemModel();
-                            patientAppointment.setDateTime(doc.getData().get("date").toString());
-                            patientAppointment.setPatientEmail(doc.getData().get("patient_email").toString());
-                            patientAppointment.setPatientName("Unnamed patient");
-                            patientAppointment.setPhotoURL("");
-                            patientList.add(patientAppointment);
+                            // Accepts the data if the date/time of appointment matches the date string input
+                            String dateTimeStr = doc.getData().get("date").toString();
+                            if (dateTimeStr.contains(date)) {
+                                patientAppointment.setDateTime(doc.getData().get("date").toString());
+                                patientAppointment.setPatientEmail(doc.getData().get("patient_email").toString());
+                                patientAppointment.setPatientName("Unnamed patient");
+                                patientAppointment.setPhotoURL("");
+                                patientList.add(patientAppointment);
+                            }
                         }
                         // Returns a success result if the list has a data
                         if (!patientList.isEmpty()){

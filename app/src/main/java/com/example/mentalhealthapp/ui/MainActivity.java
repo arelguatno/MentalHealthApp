@@ -59,7 +59,8 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.nav_consultation:
                     // TODO change view if doctor or patient
-                    selectedFragment = new ConsultationFragment();
+                    //selectedFragment = new ConsultationFragment();
+                    selectedFragment = new PatientAppointmentsFragment();
                     break;
                 case R.id.nav_profile:
                     selectedFragment = new ProfileFragment();
