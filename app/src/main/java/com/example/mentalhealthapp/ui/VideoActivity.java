@@ -30,7 +30,7 @@ public class VideoActivity extends AppCompatActivity implements Connector.IConne
 
     private Connector vc;
     private FrameLayout videoFrame;
-
+    String callID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +47,7 @@ public class VideoActivity extends AppCompatActivity implements Connector.IConne
         ConnectorPkg.setApplicationUIContext(this);
         ConnectorPkg.initialize();
         videoFrame =  (FrameLayout)findViewById(R.id.videoFrame);
+        callID = getIntent().getStringExtra("CALL_ID");
 
     }
 
@@ -58,7 +59,7 @@ public class VideoActivity extends AppCompatActivity implements Connector.IConne
         vc.showViewAt(videoFrame, 0, 0, videoFrame.getWidth(), videoFrame.getHeight());
 
         String token = "cHJvdmlzaW9uAHVzZXIxQGYxMGI4Yi52aWR5by5pbwA2Mzc2NTU4NjU0OAAAOGIxNjA2ZmFiMTJjMjYwNGExNjdmZGJhZTNlZjQ0YTIyM2ZjMDg0NjczODBjOTA5ZGMwODc5ZWEyNTlkNDQ3OTQ2ODc5MWI3M2NkMjlhNzQ4NmZhYTcwMTA5NjIwM2Ez";
-        vc.connect("prod.vidyo.io", token, DISPLAY_NAME, "DemoRoom", this);
+        vc.connect("prod.vidyo.io", token, DISPLAY_NAME, callID, this);
 
     }
 
