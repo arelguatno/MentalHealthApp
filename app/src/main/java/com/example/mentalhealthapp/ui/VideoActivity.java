@@ -24,6 +24,7 @@ import static com.example.mentalhealthapp.utility.Constants.DISPLAY_NAME;
 public class VideoActivity extends AppCompatActivity implements Connector.IConnect {
 
     private static final int PERMISSION_REQUEST_CAMERA = 0;
+    private static final String TAG = "VideoActivity";
 
     private Button btnConnect;
     private Button btnDisconnect;
@@ -37,8 +38,6 @@ public class VideoActivity extends AppCompatActivity implements Connector.IConne
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
 
-        Log.d("VideoActivity", "onCreate");
-
         checkCameraPermission();
 
         btnConnect = findViewById(R.id.btn_vid_connect);
@@ -49,6 +48,8 @@ public class VideoActivity extends AppCompatActivity implements Connector.IConne
         videoFrame =  (FrameLayout)findViewById(R.id.videoFrame);
         callID = getIntent().getStringExtra("CALL_ID");
 
+        Log.d(TAG, "User display name: " + DISPLAY_NAME);
+        Log.d(TAG, "Call ID: " + callID);
     }
 
     public void Connect(View v){
@@ -60,7 +61,6 @@ public class VideoActivity extends AppCompatActivity implements Connector.IConne
 
         String token = "cHJvdmlzaW9uAHVzZXIxQGYxMGI4Yi52aWR5by5pbwA2Mzc2NTU4NjU0OAAAOGIxNjA2ZmFiMTJjMjYwNGExNjdmZGJhZTNlZjQ0YTIyM2ZjMDg0NjczODBjOTA5ZGMwODc5ZWEyNTlkNDQ3OTQ2ODc5MWI3M2NkMjlhNzQ4NmZhYTcwMTA5NjIwM2Ez";
         vc.connect("prod.vidyo.io", token, DISPLAY_NAME, callID, this);
-
     }
 
     public void Disconnect(View v){

@@ -158,6 +158,7 @@ public class HomeFragment extends Fragment {
 
                         try {
                             Date date = format.parse(string);
+                            itemModel.setCall_id(doc.getString("video_room"));
                             itemModel.setDate_number(String.valueOf(date.getDate()));
                             itemModel.setDate_month(getDateOfTheMonth(date));
                             appointmentsArrayList.add(itemModel);
@@ -193,7 +194,6 @@ public class HomeFragment extends Fragment {
                     DISPLAY_NAME = "No_Name";
                     return;
                 }
-
                 if (snapshot != null && snapshot.exists()) {
                     DISPLAY_NAME = snapshot.getString("display_name");
                     labelName.setText("Welcome back, " + DISPLAY_NAME + "!");

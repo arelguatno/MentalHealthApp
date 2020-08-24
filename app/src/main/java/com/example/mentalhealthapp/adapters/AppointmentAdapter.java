@@ -2,6 +2,7 @@ package com.example.mentalhealthapp.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +37,7 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
     }
 
     @Override
-    public void onBindViewHolder(final AppointmentAdapter.viewHolder viewHolder, int position) {
+    public void onBindViewHolder(final AppointmentAdapter.viewHolder viewHolder, final int position) {
         viewHolder.dateNumber.setText(arrayList.get(position).getDate_number());
         viewHolder.dateMonthName.setText(arrayList.get(position).getDate_month());
 
@@ -44,6 +45,7 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(context, VideoActivity.class);
+                i.putExtra("CALL_ID", arrayList.get(position).getCall_id());
                 context.startActivity(i);
             }
         });
