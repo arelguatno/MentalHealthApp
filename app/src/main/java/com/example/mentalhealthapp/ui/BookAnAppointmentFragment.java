@@ -25,14 +25,25 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mentalhealthapp.R;
+import com.example.mentalhealthapp.adapters.AppointmentAdapter;
 import com.example.mentalhealthapp.adapters.DoctorsListAdapter;
+import com.example.mentalhealthapp.java_objects.AppointmentModel;
 import com.example.mentalhealthapp.java_objects.CalendarViewModel;
 import com.example.mentalhealthapp.java_objects.DoctorListItemModel;
+import com.example.mentalhealthapp.utility.Constants;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class BookAnAppointmentFragment extends Fragment {
 
@@ -44,15 +55,18 @@ public class BookAnAppointmentFragment extends Fragment {
     RecyclerView.LayoutManager layoutManager;
     String dateSelected = "";
     CalendarViewModel calendarViewModel;
+    FirebaseFirestore db;
+    private static String TAG = "BookAnAppointmentFragment";
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v =  inflater.inflate(R.layout.fragment_book_an_appointment, container,false);
-
+        final View v = inflater.inflate(R.layout.fragment_book_an_appointment, container, false);
+        db = FirebaseFirestore.getInstance();
         // Tool Bar
         Toolbar toolbar = v.findViewById(R.id.toolbar);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         if (((AppCompatActivity) getActivity()).getSupportActionBar() != null) {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Book an Appointment");
@@ -64,7 +78,7 @@ public class BookAnAppointmentFragment extends Fragment {
         final int year = calendar.get(Calendar.YEAR);
         final int month = calendar.get(Calendar.MONTH);
         final int day = calendar.get(Calendar.DAY_OF_MONTH);
-        date.setText(year+"/"+(month+1)+"/"+day);
+        date.setText(year + "/" + (month + 1) + "/" + day);
         Date d = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         dateSelected = sdf.format(d.getTime());
@@ -74,7 +88,7 @@ public class BookAnAppointmentFragment extends Fragment {
         calendarViewModel.getDate().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String s) {
-                Log.d("New Value:",s);
+                Log.d("New Value:", s);
             }
         });
         calendar_img.setOnClickListener(new View.OnClickListener() {
@@ -92,22 +106,34 @@ public class BookAnAppointmentFragment extends Fragment {
             @Override
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
                 i1 = i1 + 1;
-                date.setText(i+"/"+i1+"/"+i2);
-                dateSelected = i+"/"+i1+"/"+i2;
+                date.setText(i + "/" + i1 + "/" + i2);
+                dateSelected = i + "/" + i1 + "/" + i2;
                 calendarViewModel.getDate().setValue(dateSelected);
             }
         };
-        ArrayList<DoctorListItemModel> doctorList = new ArrayList<>();
-        doctorList.add(new DoctorListItemModel("", "Dr. Quacke Quack", "drquackquack@gmail.com","4", "3:00 PM"));
-        doctorList.add(new DoctorListItemModel("", "Dr. Drake Ramoray", "drakeramoray@yahoo.com","4.5", "4:00 PM"));
-        doctorList.add(new DoctorListItemModel("", "Dr. Johnny Simcard", "johnnysims@philhealth.org","4.8", "5:00 PM"));
 
-        recyclerView = v.findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(getContext());
-        adapter = new DoctorsListAdapter(doctorList, calendarViewModel.getDate(), getContext());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
+        final ArrayList<DoctorListItemModel> doctorList = new ArrayList<>();
+        db.collection(Constants.USER_COLLECTION)
+                .whereEqualTo("isADoctor", true).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    Log.w(TAG, "Listen failed.", e);
+                    return;
+                }
+                doctorList.clear();
+                for (QueryDocumentSnapshot doc : value) {
+                    doctorList.add(new DoctorListItemModel("", doc.getString("display_name"), doc.getString("email"), "4", "3:00 PM"));
+                }
+                recyclerView = v.findViewById(R.id.recyclerView);
+                recyclerView.setHasFixedSize(true);
+                layoutManager = new LinearLayoutManager(getContext());
+                adapter = new DoctorsListAdapter(doctorList, calendarViewModel.getDate(), getContext());
+                recyclerView.setLayoutManager(layoutManager);
+                recyclerView.setAdapter(adapter);
+            }
+        });
+
 
         return v;
     }
