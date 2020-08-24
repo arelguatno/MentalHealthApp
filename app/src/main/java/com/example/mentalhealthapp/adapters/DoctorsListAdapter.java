@@ -1,5 +1,6 @@
 package com.example.mentalhealthapp.adapters;
 
+import java.util.UUID;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -85,13 +86,18 @@ public class DoctorsListAdapter extends RecyclerView.Adapter<DoctorsListAdapter.
                 bookedAppointment.doctor_email = doctor.getDocEmail();
                 bookedAppointment.patient_email = auth.getCurrentUser().getEmail();
                 bookedAppointment.price = 69;
-                bookedAppointment.video_room = "g4exFdYnbEgszWb";
+                bookedAppointment.video_room = generateString();
                 uploadData(bookedAppointment);
 
 
                 ((MainActivity)context).getSupportFragmentManager().beginTransaction().addToBackStack(null).add(R.id.fragment_container, new BookingConfirmedFragment()).commit();
             }
         });
+    }
+
+    public static String generateString() {
+        String uuid = UUID.randomUUID().toString();
+        return uuid;
     }
 
     public void uploadData(BookedAppointmentModel appointment){
