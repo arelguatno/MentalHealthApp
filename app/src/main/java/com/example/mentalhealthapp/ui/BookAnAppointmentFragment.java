@@ -95,7 +95,7 @@ public class BookAnAppointmentFragment extends Fragment {
         recyclerView = v.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getContext());
-        adapter = new DoctorsListAdapter(doctorList, calendarViewModel.getDate());
+        adapter = new DoctorsListAdapter(doctorList, calendarViewModel.getDate(), getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 

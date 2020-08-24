@@ -1,5 +1,6 @@
 package com.example.mentalhealthapp.adapters;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,12 +15,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mentalhealthapp.R;
 import com.example.mentalhealthapp.java_objects.DoctorListItemModel;
+import com.example.mentalhealthapp.ui.BookingConfirmedFragment;
+import com.example.mentalhealthapp.ui.MainActivity;
 
 import java.util.ArrayList;
 
 public class DoctorsListAdapter extends RecyclerView.Adapter<DoctorsListAdapter.DoctorsViewHolder> {
     private ArrayList<DoctorListItemModel> mDoctorsList;
     public MutableLiveData<String> dateSelected;
+    private Context context;
 
     public static class DoctorsViewHolder extends RecyclerView.ViewHolder {
         public ImageView mImageView;
@@ -38,9 +42,10 @@ public class DoctorsListAdapter extends RecyclerView.Adapter<DoctorsListAdapter.
         }
     }
 
-    public DoctorsListAdapter(ArrayList<DoctorListItemModel> doctorsList, MutableLiveData<String> dateSelected){
+    public DoctorsListAdapter(ArrayList<DoctorListItemModel> doctorsList, MutableLiveData<String> dateSelected, Context context){
         mDoctorsList = doctorsList;
         this.dateSelected = dateSelected;
+        this.context = context;
     }
 
     @NonNull
@@ -67,6 +72,7 @@ public class DoctorsListAdapter extends RecyclerView.Adapter<DoctorsListAdapter.
                 Log.d("Doctor", doctor.getDocName());
                 Log.d("Date", dateSelected.getValue());
                 Log.d("Time",doctor.getTime());
+                ((MainActivity)context).getSupportFragmentManager().beginTransaction().addToBackStack(null).add(R.id.fragment_container, new BookingConfirmedFragment()).commit();
             }
         });
     }
