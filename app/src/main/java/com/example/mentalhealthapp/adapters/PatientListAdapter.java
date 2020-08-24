@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mentalhealthapp.R;
-import com.example.mentalhealthapp.java_objects.DoctorListItemModel;
 import com.example.mentalhealthapp.java_objects.PatientListItemModel;
 
 import java.util.ArrayList;
@@ -57,13 +56,8 @@ public class PatientListAdapter extends RecyclerView.Adapter<PatientListAdapter.
 
         // Set item views based on your views and data model
         holder.patientName.setText(patient.getPatientName());
-        holder.time.setText(patient.getTime());
+        holder.time.setText(patient.getDateTime());
 
-        // So far, uncommenting these will result to a crash
-
-//        holder.docName.setText(doctor.getDocName());
-//        holder.rating.setText(doctor.getRating());
-//        holder.time.setText(doctor.getTime());
     }
 
     @Override

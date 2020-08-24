@@ -4,7 +4,9 @@ public class PatientListItemModel {
 
     public String photoURL;
     public String patientName;
-    public String time;
+    public String patientEmail;
+    public String videoRoom;
+    public String dateTime;
 
     public String getPhotoURL() {
         return photoURL;
@@ -22,17 +24,37 @@ public class PatientListItemModel {
         this.patientName = patientName;
     }
 
-    public String getTime() {
-        return time;
+    public String getDateTime() {
+        return dateTime;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setDateTime(String dateTime) {
+        this.dateTime = dateTime;
     }
 
-    public PatientListItemModel(String photoURL, String patientName, String time) {
+    public String getPatientEmail() {
+        return patientEmail;
+    }
+
+    public void setPatientEmail(String patientEmail) {
+        this.patientEmail = patientEmail;
+    }
+
+    public String getVideoRoom() {
+        return videoRoom;
+    }
+
+    public void setVideoRoom(String videoRoom) {
+        this.videoRoom = videoRoom;
+    }
+
+    public PatientListItemModel() {}
+
+    public PatientListItemModel(String photoURL, String patientName, String patientEmail, String videoRoom, String dateTime) {
         this.photoURL = photoURL;
         this.patientName = patientName;
-        this.time = time;
+        this.patientEmail = patientEmail;
+        this.videoRoom = videoRoom;
+        this.dateTime = dateTime;
     }
 }
