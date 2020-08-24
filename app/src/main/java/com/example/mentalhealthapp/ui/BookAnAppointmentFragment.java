@@ -94,7 +94,7 @@ public class BookAnAppointmentFragment extends Fragment {
                 Log.d("New Value:", s);
             }
         });
-        calendar_img.setOnClickListener(new View.OnClickListener() {
+        date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), listener, year, month, day);
