@@ -260,7 +260,7 @@ public class ProfileFragment extends Fragment {
     private void validateAndSaveContactDetails(){
         // Only email is mandatory (at least for now)
         if (emailField.getText().toString().trim().isEmpty()){
-            firstNameField.setError("Please specify your email address.");
+            emailField.setError("Please specify your email address.");
             return;
         }
         // All fields are validated at this point
