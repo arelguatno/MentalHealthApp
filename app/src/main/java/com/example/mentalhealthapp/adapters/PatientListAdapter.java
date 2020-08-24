@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mentalhealthapp.R;
@@ -20,7 +21,8 @@ import java.util.ArrayList;
 
 public class PatientListAdapter extends RecyclerView.Adapter<PatientListAdapter.PatientViewHolder> {
     private ArrayList<PatientListItemModel> mPatientsList;
-    private Context mContext;
+    private Context context;
+    public MutableLiveData<String> dateSelected;
 
     public static class PatientViewHolder extends RecyclerView.ViewHolder {
         public ImageView mImageView;
@@ -37,20 +39,17 @@ public class PatientListAdapter extends RecyclerView.Adapter<PatientListAdapter.
         }
     }
 
-    public PatientListAdapter(Context context, ArrayList<PatientListItemModel> patientsList){
-        mContext = context;
+    public PatientListAdapter(Context context, MutableLiveData<String> dateSelected, ArrayList<PatientListItemModel> patientsList){
         mPatientsList = patientsList;
+        this.dateSelected = dateSelected;
+        this.context = context;
     }
 
     @NonNull
     @Override
     public PatientViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
-        LayoutInflater inflater = LayoutInflater.from(context);
-
         // Inflate the custom layout
-        View v = inflater.inflate(R.layout.patient_appointment_item, parent, false);
-
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.patient_appointment_item, parent, false);
         // Return a new holder instance
         PatientViewHolder patientsViewHolder = new PatientViewHolder(v);
         return patientsViewHolder;
@@ -69,9 +68,9 @@ public class PatientListAdapter extends RecyclerView.Adapter<PatientListAdapter.
         holder.join_room_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext, VideoActivity.class);
+                Intent intent = new Intent(context, VideoActivity.class);
                 intent.putExtra("CALL_ID", patient.getVideoRoom());
-                mContext.startActivity(intent);
+                context.startActivity(intent);
             }
         });
     }

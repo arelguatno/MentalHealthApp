@@ -30,7 +30,10 @@
                 android:id="@+id/textView3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Doctor Jones" />
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:text="Dr. Quack"/>
 
 
             <RatingBar
@@ -45,6 +48,8 @@
                 android:id="@+id/textView6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:textSize="15dp"
                 android:text="2:00 PM" />
         </LinearLayout>
 

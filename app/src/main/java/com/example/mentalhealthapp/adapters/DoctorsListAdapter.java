@@ -69,7 +69,7 @@ public class DoctorsListAdapter extends RecyclerView.Adapter<DoctorsListAdapter.
     @Override
     public void onBindViewHolder(@NonNull DoctorsViewHolder holder, int position) {
         final DoctorListItemModel doctor = mDoctorsList.get(position);
-        holder.mImageView.setImageResource(R.drawable.app_logo);
+        holder.mImageView.setImageResource(R.drawable.doctor_default_logo);
 
 
         holder.docName.setText(doctor.getDocName());
