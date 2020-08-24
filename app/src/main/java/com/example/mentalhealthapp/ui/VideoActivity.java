@@ -24,6 +24,7 @@ import static com.example.mentalhealthapp.utility.Constants.DISPLAY_NAME;
 public class VideoActivity extends AppCompatActivity implements Connector.IConnect {
 
     private static final int PERMISSION_REQUEST_CAMERA = 0;
+    private static final int PERMISSION_REQUEST_MIC =0;
     private static final String TAG = "VideoActivity";
 
     private Button btnConnect;
@@ -39,6 +40,7 @@ public class VideoActivity extends AppCompatActivity implements Connector.IConne
         setContentView(R.layout.activity_video);
 
         checkCameraPermission();
+        checkMicPermission();
 
         btnConnect = findViewById(R.id.btn_vid_connect);
         btnDisconnect = findViewById(R.id.btn_vid_discon);
@@ -64,7 +66,9 @@ public class VideoActivity extends AppCompatActivity implements Connector.IConne
     }
 
     public void Disconnect(View v){
-         vc.disconnect();
+        vc.disconnect();
+        Log.d(TAG, "Phone disconnected " + DISPLAY_NAME);
+
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
@@ -84,6 +88,15 @@ public class VideoActivity extends AppCompatActivity implements Connector.IConne
                     PERMISSION_REQUEST_CAMERA);
         }
     }
+    private void checkMicPermission(){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
+                != PackageManager.PERMISSION_GRANTED){
+            Log.d("VideoActivity", "Mic request permission");
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.RECORD_AUDIO},
+                    PERMISSION_REQUEST_MIC);
+        }
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
@@ -92,8 +105,18 @@ public class VideoActivity extends AppCompatActivity implements Connector.IConne
             // Request for camera permission.
             if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Log.d("VideoActivity", "Camera granted");
-                findViewById(R.id.btn_vid_connect).setClickable(true);
+//                findViewById(R.id.btn_vid_connect).setClickable(true);
             }
         }
+        if (requestCode == PERMISSION_REQUEST_MIC) {
+            // Request for mic permission.
+            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Log.d("VideoActivity", "mic granted");
+//                findViewById(R.id.btn_vid_connect).setClickable(true);
+            }
+        }
+
     }
+
+
 }
