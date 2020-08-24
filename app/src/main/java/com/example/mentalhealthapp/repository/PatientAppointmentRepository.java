@@ -52,6 +52,7 @@ public class PatientAppointmentRepository {
                                 patientAppointment.setPatientEmail(doc.getData().get("patient_email").toString());
                                 patientAppointment.setPatientName("Unnamed patient");
                                 patientAppointment.setPhotoURL("");
+                                patientAppointment.setVideoRoom(doc.getData().get("video_room").toString());
                                 patientList.add(patientAppointment);
                             }
                         }

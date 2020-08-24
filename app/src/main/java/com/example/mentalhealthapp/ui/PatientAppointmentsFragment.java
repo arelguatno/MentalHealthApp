@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,13 +37,14 @@ public class PatientAppointmentsFragment extends Fragment {
 
     TextView date;
     ImageView calendar_img;
+    Button video_room_btn;
     DatePickerDialog.OnDateSetListener listener;
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
 
     // List model for patients
-    ArrayList<PatientListItemModel> patientList;
+    ArrayList<PatientListItemModel> patientList = new ArrayList<PatientListItemModel>();
     String selectedDate;
 
     @Nullable
@@ -143,7 +145,7 @@ public class PatientAppointmentsFragment extends Fragment {
     private void populateData() {
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new PatientListAdapter(patientList);
+        adapter = new PatientListAdapter(getContext(), patientList);
         recyclerView.setAdapter(adapter);
         recyclerView.invalidate();
     }
