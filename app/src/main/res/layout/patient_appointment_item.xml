@@ -30,7 +30,10 @@
                 android:id="@+id/patient_display_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/patient_display_name_placeholder" />
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:text="@string/patient_display_name_placeholder"/>
 
             <TextView
                 android:id="@+id/patient_time"
