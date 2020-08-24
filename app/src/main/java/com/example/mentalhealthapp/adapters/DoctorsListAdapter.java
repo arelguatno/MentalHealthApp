@@ -14,9 +14,14 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mentalhealthapp.R;
+import com.example.mentalhealthapp.java_objects.BookedAppointmentModel;
 import com.example.mentalhealthapp.java_objects.DoctorListItemModel;
 import com.example.mentalhealthapp.ui.BookingConfirmedFragment;
 import com.example.mentalhealthapp.ui.MainActivity;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
@@ -24,6 +29,9 @@ public class DoctorsListAdapter extends RecyclerView.Adapter<DoctorsListAdapter.
     private ArrayList<DoctorListItemModel> mDoctorsList;
     public MutableLiveData<String> dateSelected;
     private Context context;
+    private BookedAppointmentModel bookedAppointment = new BookedAppointmentModel();
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirebaseAuth auth = FirebaseAuth.getInstance();
 
     public static class DoctorsViewHolder extends RecyclerView.ViewHolder {
         public ImageView mImageView;
@@ -72,7 +80,25 @@ public class DoctorsListAdapter extends RecyclerView.Adapter<DoctorsListAdapter.
                 Log.d("Doctor", doctor.getDocName());
                 Log.d("Date", dateSelected.getValue());
                 Log.d("Time",doctor.getTime());
+
+                bookedAppointment.date = dateSelected.getValue() + " " + doctor.getTime();
+                bookedAppointment.doctor_email = doctor.getDocEmail();
+                bookedAppointment.patient_email = auth.getCurrentUser().getEmail();
+                bookedAppointment.price = 69;
+                bookedAppointment.video_room = "g4exFdYnbEgszWb";
+                uploadData(bookedAppointment);
+
+
                 ((MainActivity)context).getSupportFragmentManager().beginTransaction().addToBackStack(null).add(R.id.fragment_container, new BookingConfirmedFragment()).commit();
+            }
+        });
+    }
+
+    public void uploadData(BookedAppointmentModel appointment){
+        db.collection("appointments").add(appointment).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+                Log.d("Firestore","success");
             }
         });
     }

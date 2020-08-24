@@ -88,9 +88,9 @@ public class BookAnAppointmentFragment extends Fragment {
             }
         };
         ArrayList<DoctorListItemModel> doctorList = new ArrayList<>();
-        doctorList.add(new DoctorListItemModel("", "Dr. Quacke Quack", "4.0/5", "3:00 PM"));
-        doctorList.add(new DoctorListItemModel("", "Dr. Drake Ramoray", "4.2/5", "4:00 PM"));
-        doctorList.add(new DoctorListItemModel("", "Dr. Johnny Simcard", "4.3/5", "5:00 PM"));
+        doctorList.add(new DoctorListItemModel("", "Dr. Quacke Quack", "drquackquack@gmail.com","4.0/5", "3:00 PM"));
+        doctorList.add(new DoctorListItemModel("", "Dr. Drake Ramoray", "drakeramoray@yahoo.com","4.2/5", "4:00 PM"));
+        doctorList.add(new DoctorListItemModel("", "Dr. Johnny Simcard", "johnnysims@philhealth.org","4.3/5", "5:00 PM"));
 
         recyclerView = v.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
