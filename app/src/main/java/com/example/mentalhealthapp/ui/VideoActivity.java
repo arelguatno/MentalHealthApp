@@ -1,6 +1,7 @@
 package com.example.mentalhealthapp.ui;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,8 +41,8 @@ public class VideoActivity extends AppCompatActivity implements Connector.IConne
 
         checkCameraPermission();
 
-//        btnConnect = findViewById(R.id.btn_vid_connect );
-//        btnDisconnect = findViewById(R.id.btn_vid_discon);
+        btnConnect = findViewById(R.id.btn_vid_connect);
+        btnDisconnect = findViewById(R.id.btn_vid_discon);
 
         ConnectorPkg.setApplicationUIContext(this);
         ConnectorPkg.initialize();
@@ -49,16 +50,16 @@ public class VideoActivity extends AppCompatActivity implements Connector.IConne
 
     }
 
-    public void Start(View v){
-
-        vc = new Connector(videoFrame, Connector.ConnectorViewStyle.VIDYO_CONNECTORVIEWSTYLE_Default,  16, "","",0);
-        vc.showViewAt(videoFrame, 0, 0, videoFrame.getWidth(), videoFrame.getHeight());
-
-    }
+//    public void Start(View v){
+//
+//        vc = new Connector(videoFrame, Connector.ConnectorViewStyle.VIDYO_CONNECTORVIEWSTYLE_Default,  16, "","",0);
+//        vc.showViewAt(videoFrame, 0, 0, videoFrame.getWidth(), videoFrame.getHeight());
+//
+//    }
 
     public void Connect(View v){
-//        btnConnect.setClickable(false);
-//        btnDisconnect.setClickable(true);
+        btnConnect.setClickable(false);
+        btnDisconnect.setClickable(true);
 
         vc = new Connector(videoFrame, Connector.ConnectorViewStyle.VIDYO_CONNECTORVIEWSTYLE_Default, 15, "warning info@VidyoClient info@VidyoConnector", "", 0);
         vc.showViewAt(videoFrame, 0, 0, videoFrame.getWidth(), videoFrame.getHeight());
@@ -66,11 +67,12 @@ public class VideoActivity extends AppCompatActivity implements Connector.IConne
         String token = "cHJvdmlzaW9uAHVzZXIxQGYxMGI4Yi52aWR5by5pbwA2Mzc2NTQxMzg5NAAANWViNDQ4NjZjYTI3NzA4NzkwZjFiNTk2OGYwNTllYTdmOTAyMGMwZmEwNmU1OTc3ZTY3MDc5MmUyNjdmYjZjOGMxMzhlNDI0MmMxNTc5ZGNlMjRiMDJlNDEzOTI2YmM4";
         vc.connect("prod.vidyo.io", token, DISPLAY_NAME, "DemoRoom", this);
 
-//        Janelle is the display name, this can be dynamic
     }
 
     public void Disconnect(View v){
          vc.disconnect();
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     public void onSuccess() { }
