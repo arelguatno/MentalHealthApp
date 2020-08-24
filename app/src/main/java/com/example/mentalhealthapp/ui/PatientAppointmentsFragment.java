@@ -25,8 +25,11 @@ import com.example.mentalhealthapp.java_objects.DoctorListItemModel;
 import com.example.mentalhealthapp.java_objects.PatientListItemModel;
 import com.example.mentalhealthapp.repository.PatientAppointmentRepository;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 public class PatientAppointmentsFragment extends Fragment {
@@ -40,6 +43,7 @@ public class PatientAppointmentsFragment extends Fragment {
 
     // List model for patients
     ArrayList<PatientListItemModel> patientList;
+    String selectedDate;
 
     @Nullable
     @Override
@@ -49,29 +53,34 @@ public class PatientAppointmentsFragment extends Fragment {
         date = (TextView) v.findViewById(R.id.patient_list_date);
         calendar_img = (ImageView) v.findViewById(R.id.patient_list_calendar_image);
 
-        // Prepares a calendar picker
-        Calendar calendar = Calendar.getInstance();
-        final int year = calendar.get(Calendar.YEAR);
-        final int month = calendar.get(Calendar.MONTH);
-        final int day = calendar.get(Calendar.DAY_OF_MONTH);
-        date.setText(year+"/"+(month+1)+"/"+day);
+        // Determines the selected date (no exact time)
+        selectedDate = getFormattedDate(Calendar.getInstance().getTime(), "yyyy/MM/dd");
+        date.setText(selectedDate);
+
+        // Prepares on click listener for the calendar image view
         calendar_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), listener, year, month, day);
+            DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), listener,
+                    Calendar.getInstance().get(Calendar.YEAR),
+                    Calendar.getInstance().get(Calendar.MONTH),
+                    Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
             datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
             datePickerDialog.show();
             }
         });
 
+        // Prepares on date set listener for the Date Picker Dialog
         listener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                // Updates the date textview
                 i1 = i1 + 1;
-                date.setText(i+"/"+i1+"/"+i2);
+                // Updates the date textview
+                selectedDate = getFormattedDate((i + "/" + i1 + "/" + i2), "yyyy/MM/dd");
+                date.setText(selectedDate);
 
                 // Renews the list of data based on the new query
+                fetchData(selectedDate);
             }
         };
 
@@ -80,9 +89,18 @@ public class PatientAppointmentsFragment extends Fragment {
         // Prepares the recycler view
         recyclerView = v.findViewById(R.id.patientListRecyclerView);
         recyclerView.setHasFixedSize(true);
+        // Begins to fetch the data with a given default date
+        fetchData(selectedDate);
+
+        return v;
+    }
+
+    private void fetchData(String date){
+        // Empties the patientList for refreshing
+        patientList.clear();
         // Gets the data from repository and listens for results
         final PatientAppointmentRepository repository = new PatientAppointmentRepository();
-        repository.getPatientAppointmentList(new PatientAppointmentRepository.FetchPatientAppointmentCallback(){
+        repository.getPatientAppointmentList(date, new PatientAppointmentRepository.FetchPatientAppointmentCallback(){
 
             @Override
             public void onSuccess(PatientListItemModel value) {
@@ -116,21 +134,34 @@ public class PatientAppointmentsFragment extends Fragment {
             @Override
             public void onFailure(String errorMsg) {
                 Toast.makeText(getContext(), errorMsg, Toast.LENGTH_LONG).show();
+                // Still populates the data (but without a specific display name and photo URL)
+                populateData();
             }
         });
-
-
-        //patientList.add(new PatientListItemModel("", "Alden Richards", "3:00 PM"));
-        //patientList.add(new PatientListItemModel("", "Liza Soberano", "4:00 PM"));
-        return v;
     }
 
     private void populateData() {
-        if (patientList != null) {
-            layoutManager = new LinearLayoutManager(getContext());
-            adapter = new PatientListAdapter(patientList);
-            recyclerView.setLayoutManager(layoutManager);
-            recyclerView.setAdapter(adapter);
+        layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new PatientListAdapter(patientList);
+        recyclerView.setAdapter(adapter);
+        recyclerView.invalidate();
+    }
+
+    private String getFormattedDate(Object date, String format){
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        if (date instanceof Date) {
+            return sdf.format((Date) date);
+        }else if (date instanceof String){
+            try {
+                Date dateTmp = sdf.parse((String) date);
+                return sdf.format(dateTmp);
+            } catch (ParseException e) {
+                e.printStackTrace();
+                return "1970/01/01";
+            }
+        }else{
+            return "1970/01/01";
         }
     }
 
