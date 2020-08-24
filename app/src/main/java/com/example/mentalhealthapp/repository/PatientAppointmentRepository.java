@@ -23,6 +23,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class PatientAppointmentRepository {
+    String selectedDate;
+
+    public PatientAppointmentRepository(String selectedDate) {
+        this.selectedDate = selectedDate;
+    }
 
     public interface FetchPatientAppointmentCallback {
         void onSuccess(PatientListItemModel value);
@@ -44,18 +49,22 @@ public class PatientAppointmentRepository {
 
         db.collection("appointments")
                 .whereEqualTo("doctor_email", user.getEmail())
+                .whereEqualTo("date", selectedDate)
+                .orderBy("time")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException e) {
                         if (e != null) {
                             result.onFailure(e.getLocalizedMessage());
+                            Log.d("test", e.getMessage());
                             return;
                         }
+                        patientList.clear();
                         for (QueryDocumentSnapshot doc : value) {
                             final PatientListItemModel patientAppointment = new PatientListItemModel();
                             // Accepts the data if the date/time of appointment matches the date string input
                             //String dateTimeStr = doc.getString"toString(");
-                            patientAppointment.setDateTime(doc.getString("date"));
+                            patientAppointment.setDateTime(doc.getString("date") + " " + doc.getString("time"));
                             patientAppointment.setPatientEmail(doc.getData().get("patient_email").toString());
                             patientAppointment.setPatientName(Constants.ANONYMOUS_LABEL);
                             patientAppointment.setPhotoURL("");

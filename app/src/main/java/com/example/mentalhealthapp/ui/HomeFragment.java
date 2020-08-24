@@ -60,6 +60,7 @@ public class HomeFragment extends Fragment {
     RecyclerView recyclerView;
     ArrayList<AppointmentModel> appointmentsArrayList;
     FirebaseFirestore db;
+    TextView appointment_label;
 
     private static final String TAG = "HomeFragment";
     private FirebaseAuth mAuth;
@@ -93,6 +94,7 @@ public class HomeFragment extends Fragment {
         carouselView = (CarouselView) v.findViewById(R.id.carouselView);
         carouselView.setPageCount(sampleImages.length);
         carouselView.setImageListener(imageListener);
+        appointment_label = v.findViewById(R.id.appointment_label);
 
         //Recommended
         populateList(v, R.id.recycler_view, recommended_icons, recommended_iconsName);
@@ -145,36 +147,40 @@ public class HomeFragment extends Fragment {
                 .whereEqualTo("patient_email", mAuth.getCurrentUser().getEmail())
                 .orderBy("date")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException e) {
-                if (e != null) {
-                    Log.w(TAG, "Listen failed.", e);
-                    return;
-                }
-                appointmentsArrayList.clear();
-                for (QueryDocumentSnapshot doc : value) {
-                    if (doc.get("video_room") != null) {
-                        AppointmentModel itemModel = new AppointmentModel();
-                        String string = doc.getString("date");
-                        DateFormat format = new SimpleDateFormat("yyyy/MM/dd hh:mm a", Locale.ENGLISH);
-
-                        try {
-                            Date date = format.parse(string);
-                            itemModel.setCall_id(doc.getString("video_room"));
-                            itemModel.setDate_number(String.valueOf(date.getDate()));
-                            itemModel.setDate_month(getDateOfTheMonth(date));
-                            appointmentsArrayList.add(itemModel);
-
-                        } catch (ParseException ex) {
-                            Log.d(TAG, "Current client " + ex.getMessage());
-                            ex.printStackTrace();
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Log.w(TAG, "Listen failed.", e);
+                            return;
                         }
+                        appointmentsArrayList.clear();
+                        if (value.size() > 0) {
+                            appointment_label.setVisibility(View.VISIBLE);
+                            for (QueryDocumentSnapshot doc : value) {
+                                AppointmentModel itemModel = new AppointmentModel();
+                                String string = doc.getString("date");
+                                DateFormat format = new SimpleDateFormat("yyyy/M/d", Locale.ENGLISH);
+
+                                try {
+                                    Date date = format.parse(string);
+                                    itemModel.setCall_id(doc.getString("video_room"));
+                                    itemModel.setDate_number(String.valueOf(date.getDate()));
+                                    itemModel.setDate_month(getDateOfTheMonth(date));
+                                    appointmentsArrayList.add(itemModel);
+
+                                } catch (ParseException ex) {
+                                    Log.d(TAG, "Current client " + ex.getMessage());
+                                    ex.printStackTrace();
+                                }
+                            }
+                        } else {
+                            appointment_label.setVisibility(View.INVISIBLE);
+                        }
+
+                        AppointmentAdapter adapter = new AppointmentAdapter(v.getContext(), appointmentsArrayList);
+                        recyclerView.setAdapter(adapter);
                     }
-                }
-                AppointmentAdapter adapter = new AppointmentAdapter(v.getContext(), appointmentsArrayList);
-                recyclerView.setAdapter(adapter);
-            }
-        });
+                });
     }
 
     ImageListener imageListener = new ImageListener() {

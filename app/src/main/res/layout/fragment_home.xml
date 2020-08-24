@@ -71,6 +71,7 @@
                 android:layout_marginTop="2dp" />
 
             <TextView
+                android:id="@+id/appointment_label"
                 android:layout_marginBottom="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

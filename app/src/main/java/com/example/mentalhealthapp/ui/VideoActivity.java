@@ -18,6 +18,9 @@ import com.example.mentalhealthapp.R;
 import com.vidyo.VidyoClient.Connector.Connector;
 import com.vidyo.VidyoClient.Connector.ConnectorPkg;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.example.mentalhealthapp.utility.Constants.DISPLAY_NAME;
 
 
@@ -33,28 +36,28 @@ public class VideoActivity extends AppCompatActivity implements Connector.IConne
     private Connector vc;
     private FrameLayout videoFrame;
     String callID;
+    final private int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
 
-        checkCameraPermission();
-        checkMicPermission();
-
         btnConnect = findViewById(R.id.btn_vid_connect);
         btnDisconnect = findViewById(R.id.btn_vid_discon);
 
+        checkCameraPermission();
+
         ConnectorPkg.setApplicationUIContext(this);
         ConnectorPkg.initialize();
-        videoFrame =  (FrameLayout)findViewById(R.id.videoFrame);
+        videoFrame = (FrameLayout) findViewById(R.id.videoFrame);
         callID = getIntent().getStringExtra("CALL_ID");
 
         Log.d(TAG, "User display name: " + DISPLAY_NAME);
         Log.d(TAG, "Call ID: " + callID);
     }
 
-    public void Connect(View v){
+    public void Connect(View v) {
         btnConnect.setClickable(false);
         btnDisconnect.setClickable(true);
 
@@ -65,58 +68,58 @@ public class VideoActivity extends AppCompatActivity implements Connector.IConne
         vc.connect("prod.vidyo.io", token, DISPLAY_NAME, callID, this);
     }
 
-    public void Disconnect(View v){
+    public void Disconnect(View v) {
         vc.disconnect();
-        Log.d(TAG, "Phone disconnected " + DISPLAY_NAME);
-
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 
-    public void onSuccess() { }
-
-    public void onFailure(Connector.ConnectorFailReason connectorFailReason) { }
-
-    public void onDisconnected(Connector.ConnectorDisconnectReason connectorDisconnectReason) { }
-
-    private void checkCameraPermission(){
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED){
-            Log.d("VideoActivity", "Camera request permission");
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.CAMERA},
-                    PERMISSION_REQUEST_CAMERA);
-        }
+    public void onSuccess() {
     }
-    private void checkMicPermission(){
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
-                != PackageManager.PERMISSION_GRANTED){
-            Log.d("VideoActivity", "Mic request permission");
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.RECORD_AUDIO},
-                    PERMISSION_REQUEST_MIC);
+
+    public void onFailure(Connector.ConnectorFailReason connectorFailReason) {
+    }
+
+    public void onDisconnected(Connector.ConnectorDisconnectReason connectorDisconnectReason) {
+    }
+
+    String[] permissions = new String[]{
+            Manifest.permission.CAMERA,
+            Manifest.permission.RECORD_AUDIO};
+
+    private boolean checkCameraPermission() {
+        int result;
+        List<String> listPermissionsNeeded = new ArrayList<>();
+
+        for (String p : permissions) {
+            result = ContextCompat.checkSelfPermission(getApplicationContext(), p);
+            if (result != PackageManager.PERMISSION_GRANTED) {
+                listPermissionsNeeded.add(p);
+            }
         }
+
+        if (!listPermissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);
+            return false;
+        }
+        return true;
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
-        if (requestCode == PERMISSION_REQUEST_CAMERA) {
-            // Request for camera permission.
-            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Log.d("VideoActivity", "Camera granted");
-//                findViewById(R.id.btn_vid_connect).setClickable(true);
-            }
-        }
-        if (requestCode == PERMISSION_REQUEST_MIC) {
-            // Request for mic permission.
-            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Log.d("VideoActivity", "mic granted");
-//                findViewById(R.id.btn_vid_connect).setClickable(true);
-            }
-        }
 
+        switch (requestCode) {
+            case REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {  // permissions granted.
+                } else {
+                    String perStr = "";
+                    for (String per : permissions) {
+                        perStr += "\n" + per;
+                    }   // permissions list of don't granted permission
+                }
+                return;
+            }
+        }
     }
-
-
 }

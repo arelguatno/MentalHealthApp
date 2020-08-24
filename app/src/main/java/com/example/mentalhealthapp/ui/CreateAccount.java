@@ -49,14 +49,6 @@ public class CreateAccount extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        Button signUpButtonForDoc = (Button) findViewById(R.id.signup_button);
-        signUpButtonForDoc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
     }
 
     @Override
@@ -132,7 +124,7 @@ public class CreateAccount extends AppCompatActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(CreateAccount.this, "Authentication failed.",
+                            Toast.makeText(CreateAccount.this, task.getException().getMessage(),
                                     Toast.LENGTH_SHORT).show();
                             //updateUI(null);
                         }
@@ -214,7 +206,7 @@ public class CreateAccount extends AppCompatActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(CreateAccount.this, "Authentication failed.",
+                            Toast.makeText(CreateAccount.this, task.getException().getMessage(),
                                     Toast.LENGTH_SHORT).show();
                             //updateUI(null);
                         }

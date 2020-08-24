@@ -58,7 +58,7 @@ public class PatientListAdapter extends RecyclerView.Adapter<PatientListAdapter.
     @Override
     public void onBindViewHolder(@NonNull PatientViewHolder holder, int position) {
         final PatientListItemModel patient = mPatientsList.get(position);
-        holder.mImageView.setImageResource(R.drawable.app_logo);
+        holder.mImageView.setImageResource(R.drawable.patient_avatar);
 
         // Set item views based on your views and data model
         holder.patientName.setText(patient.getPatientName());

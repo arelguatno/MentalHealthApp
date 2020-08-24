@@ -7,6 +7,7 @@ public class BookedAppointmentModel {
     public String patient_email;
     public int price;
     public String video_room;
+    public String time;
 
     public String getDate() {
         return date;
@@ -47,4 +48,9 @@ public class BookedAppointmentModel {
     public void setVideo_room(String video_room) {
         this.video_room = video_room;
     }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
 }

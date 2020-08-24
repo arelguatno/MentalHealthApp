@@ -1,6 +1,7 @@
 package com.example.mentalhealthapp.ui;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -18,16 +19,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mentalhealthapp.R;
-import com.example.mentalhealthapp.adapters.AppointmentAdapter;
 import com.example.mentalhealthapp.adapters.DoctorsListAdapter;
-import com.example.mentalhealthapp.java_objects.AppointmentModel;
 import com.example.mentalhealthapp.java_objects.CalendarViewModel;
 import com.example.mentalhealthapp.java_objects.DoctorListItemModel;
 import com.example.mentalhealthapp.utility.Constants;
@@ -37,13 +34,10 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 import java.util.Random;
 
 public class BookAnAppointmentFragment extends Fragment {
@@ -59,12 +53,15 @@ public class BookAnAppointmentFragment extends Fragment {
     FirebaseFirestore db;
     private static String TAG = "BookAnAppointmentFragment";
     Random rand;
+    public ProgressDialog mProgressDialog;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.fragment_book_an_appointment, container, false);
         db = FirebaseFirestore.getInstance();
+
+        this.showProgressDialog("Please wait..");
         // Tool Bar
         Toolbar toolbar = v.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
@@ -83,7 +80,7 @@ public class BookAnAppointmentFragment extends Fragment {
         final int day = calendar.get(Calendar.DAY_OF_MONTH);
         date.setText(year + "/" + (month + 1) + "/" + day);
         Date d = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/M/d");
         dateSelected = sdf.format(d.getTime());
         Log.d("Date Selected", dateSelected);
         calendarViewModel = new ViewModelProvider(this).get(CalendarViewModel.class);
@@ -122,6 +119,7 @@ public class BookAnAppointmentFragment extends Fragment {
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException e) {
                 if (e != null) {
                     Log.w(TAG, "Listen failed.", e);
+                    hideProgressDialog();
                     return;
                 }
                 doctorList.clear();
@@ -137,11 +135,30 @@ public class BookAnAppointmentFragment extends Fragment {
                 adapter = new DoctorsListAdapter(doctorList, calendarViewModel.getDate(), getContext());
                 recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setAdapter(adapter);
+                hideProgressDialog();
             }
+
         });
 
 
         return v;
+    }
+
+    public void showProgressDialog(String message) {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(getContext());
+            mProgressDialog.setMessage(message);
+            mProgressDialog.setIndeterminate(true);
+            mProgressDialog.setCancelable(false);
+        }
+
+        mProgressDialog.show();
+    }
+
+    public void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
     }
 
 }
