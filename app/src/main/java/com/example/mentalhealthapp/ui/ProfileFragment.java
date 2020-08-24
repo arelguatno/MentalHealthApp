@@ -366,7 +366,7 @@ public class ProfileFragment extends Fragment {
                     savePhotoLink.setVisibility(View.VISIBLE);
                     break;
                 default:
-                    // Do nothing
+                    break;  // Do nothing
             }
         }
     }
@@ -396,7 +396,6 @@ public class ProfileFragment extends Fragment {
             );
 
             profilePicUri = Uri.parse(fileTmp.getPath());
-            Toast.makeText(getContext(), fileTmp.getAbsolutePath(), Toast.LENGTH_LONG).show();
         } catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(getContext(), "Error opening camera", Toast.LENGTH_LONG).show();

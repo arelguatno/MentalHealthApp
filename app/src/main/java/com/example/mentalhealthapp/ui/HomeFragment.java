@@ -172,7 +172,6 @@ public class HomeFragment extends Fragment {
                 recyclerView.setAdapter(adapter);
             }
         });
-
     }
 
     ImageListener imageListener = new ImageListener() {
