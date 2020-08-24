@@ -63,6 +63,7 @@ public class BookAnAppointmentFragment extends Fragment {
             }
         });
 
+
         listener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
@@ -80,7 +81,7 @@ public class BookAnAppointmentFragment extends Fragment {
         recyclerView = v.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getContext());
-        adapter = new DoctorsListAdapter(doctorList);
+        adapter = new DoctorsListAdapter(doctorList, dateSelected);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 

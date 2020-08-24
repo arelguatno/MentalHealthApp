@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 public class DoctorsListAdapter extends RecyclerView.Adapter<DoctorsListAdapter.DoctorsViewHolder> {
     private ArrayList<DoctorListItemModel> mDoctorsList;
+    public String dateSelected;
 
     public static class DoctorsViewHolder extends RecyclerView.ViewHolder {
         public ImageView mImageView;
@@ -25,7 +26,6 @@ public class DoctorsListAdapter extends RecyclerView.Adapter<DoctorsListAdapter.
         public TextView rating;
         public TextView time;
         public Button bookButton;
-        public String dateSelected;
 
         public DoctorsViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -37,8 +37,9 @@ public class DoctorsListAdapter extends RecyclerView.Adapter<DoctorsListAdapter.
         }
     }
 
-    public DoctorsListAdapter(ArrayList<DoctorListItemModel> doctorsList){
+    public DoctorsListAdapter(ArrayList<DoctorListItemModel> doctorsList, String dateSelected){
         mDoctorsList = doctorsList;
+        this.dateSelected = dateSelected;
     }
 
     @NonNull
@@ -63,7 +64,7 @@ public class DoctorsListAdapter extends RecyclerView.Adapter<DoctorsListAdapter.
             @Override
             public void onClick(View view) {
                 Log.d("Doctor", doctor.getDocName());
-                Log.d("Date", "date");
+                Log.d("Date", dateSelected);
                 Log.d("Time",doctor.getTime());
             }
         });
