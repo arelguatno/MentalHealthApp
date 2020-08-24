@@ -123,7 +123,7 @@ public class BookAnAppointmentFragment extends Fragment {
                 }
                 doctorList.clear();
                 for (QueryDocumentSnapshot doc : value) {
-                    doctorList.add(new DoctorListItemModel("", doc.getString("display_name"), doc.getString("email"), "4", "3:00 PM"));
+                    doctorList.add(new DoctorListItemModel("", "Dr. " + doc.getString("display_name"), doc.getString("email"), "4", "3:00 PM"));
                 }
                 recyclerView = v.findViewById(R.id.recyclerView);
                 recyclerView.setHasFixedSize(true);
