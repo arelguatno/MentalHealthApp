@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mentalhealthapp.R;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 
 public class DoctorsListAdapter extends RecyclerView.Adapter<DoctorsListAdapter.DoctorsViewHolder> {
     private ArrayList<DoctorListItemModel> mDoctorsList;
-    public String dateSelected;
+    public MutableLiveData<String> dateSelected;
 
     public static class DoctorsViewHolder extends RecyclerView.ViewHolder {
         public ImageView mImageView;
@@ -37,7 +38,7 @@ public class DoctorsListAdapter extends RecyclerView.Adapter<DoctorsListAdapter.
         }
     }
 
-    public DoctorsListAdapter(ArrayList<DoctorListItemModel> doctorsList, String dateSelected){
+    public DoctorsListAdapter(ArrayList<DoctorListItemModel> doctorsList, MutableLiveData<String> dateSelected){
         mDoctorsList = doctorsList;
         this.dateSelected = dateSelected;
     }
@@ -64,7 +65,7 @@ public class DoctorsListAdapter extends RecyclerView.Adapter<DoctorsListAdapter.
             @Override
             public void onClick(View view) {
                 Log.d("Doctor", doctor.getDocName());
-                Log.d("Date", dateSelected);
+                Log.d("Date", dateSelected.getValue());
                 Log.d("Time",doctor.getTime());
             }
         });

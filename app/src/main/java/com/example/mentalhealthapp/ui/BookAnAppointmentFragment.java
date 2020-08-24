@@ -16,11 +16,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mentalhealthapp.R;
 import com.example.mentalhealthapp.adapters.DoctorsListAdapter;
+import com.example.mentalhealthapp.java_objects.CalendarViewModel;
 import com.example.mentalhealthapp.java_objects.DoctorListItemModel;
 
 import java.text.SimpleDateFormat;
@@ -37,6 +42,7 @@ public class BookAnAppointmentFragment extends Fragment {
     RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
     String dateSelected = "";
+    CalendarViewModel calendarViewModel;
 
     @Nullable
     @Override
@@ -53,6 +59,14 @@ public class BookAnAppointmentFragment extends Fragment {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         dateSelected = sdf.format(d.getTime());
         Log.d("Date Selected", dateSelected);
+        calendarViewModel = new ViewModelProvider(this).get(CalendarViewModel.class);
+        calendarViewModel.getDate().setValue(dateSelected);
+        calendarViewModel.getDate().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                Log.d("New Value:",s);
+            }
+        });
         calendar_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,9 +84,9 @@ public class BookAnAppointmentFragment extends Fragment {
                 i1 = i1 + 1;
                 date.setText(i+"/"+i1+"/"+i2);
                 dateSelected = i+"/"+i1+"/"+i2;
+                calendarViewModel.getDate().setValue(dateSelected);
             }
         };
-
         ArrayList<DoctorListItemModel> doctorList = new ArrayList<>();
         doctorList.add(new DoctorListItemModel("", "Dr. Quacke Quack", "4.0/5", "3:00 PM"));
         doctorList.add(new DoctorListItemModel("", "Dr. Drake Ramoray", "4.2/5", "4:00 PM"));
@@ -81,7 +95,7 @@ public class BookAnAppointmentFragment extends Fragment {
         recyclerView = v.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getContext());
-        adapter = new DoctorsListAdapter(doctorList, dateSelected);
+        adapter = new DoctorsListAdapter(doctorList, calendarViewModel.getDate());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
