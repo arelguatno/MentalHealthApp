@@ -71,7 +71,7 @@ public class PatientAppointmentsFragment extends Fragment {
         calendar_img = (ImageView) v.findViewById(R.id.patient_list_calendar_image);
 
         // Determines the selected date (no exact time)
-        selectedDate = getFormattedDate(Calendar.getInstance().getTime(), "yyyy/MM/dd");
+        selectedDate = getFormattedDate(Calendar.getInstance().getTime(), "yyyy/M/d");
         date.setText(selectedDate);
 
         calendarViewModel = new ViewModelProvider(this).get(CalendarViewModel.class);
@@ -79,12 +79,13 @@ public class PatientAppointmentsFragment extends Fragment {
         calendarViewModel.getDate().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String s) {
+                fetchData();
                 Log.d("New Value:", s);
             }
         });
 
         // Prepares on click listener for the calendar image view
-        calendar_img.setOnClickListener(new View.OnClickListener() {
+        date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), listener,
@@ -103,7 +104,7 @@ public class PatientAppointmentsFragment extends Fragment {
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
                 i1 = i1 + 1;
                 // Updates the date textview
-                selectedDate = getFormattedDate((i + "/" + i1 + "/" + i2), "yyyy/MM/dd");
+                selectedDate = getFormattedDate((i + "/" + i1 + "/" + i2), "yyyy/M/d");
                 date.setText(selectedDate);
                 calendarViewModel.getDate().setValue(selectedDate);
                 // Renews the list of data based on the new query
@@ -124,7 +125,7 @@ public class PatientAppointmentsFragment extends Fragment {
         // Refreshes the patient list
         patientList.clear();
         // Gets the data from repository and listens for results
-        final PatientAppointmentRepository repository = new PatientAppointmentRepository();
+        final PatientAppointmentRepository repository = new PatientAppointmentRepository(selectedDate);
         repository.getPatientAppointmentList(new PatientAppointmentRepository.FetchPatientAppointmentCallback(){
 
             @Override
@@ -157,7 +158,6 @@ public class PatientAppointmentsFragment extends Fragment {
 
             @Override
             public void onFailure(String errorMsg) {
-                Toast.makeText(getContext(), errorMsg, Toast.LENGTH_LONG).show();
                 populateData();
             }
         });

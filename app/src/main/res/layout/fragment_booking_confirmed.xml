@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#33000000"
+    android:backgroundTint="@android:color/white"
     tools:context=".ui.BookingConfirmedFragment">
 
     <LinearLayout
@@ -28,6 +29,7 @@
             android:layout_marginRight="10dp"
             android:fontFamily="sans-serif-condensed-medium"
             android:gravity="center"
+            android:textColor="@android:color/black"
             android:text="Thank you, your appointment has been confirmed!"
             android:textSize="24sp" />
 
@@ -36,6 +38,10 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Back to home" />
+            android:background="@drawable/email_password_button"
+            android:text="Back to home"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

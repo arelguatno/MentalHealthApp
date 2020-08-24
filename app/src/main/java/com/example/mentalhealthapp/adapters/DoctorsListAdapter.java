@@ -83,7 +83,8 @@ public class DoctorsListAdapter extends RecyclerView.Adapter<DoctorsListAdapter.
                 Log.d("Date", dateSelected.getValue());
                 Log.d("Time",doctor.getTime());
 
-                bookedAppointment.date = dateSelected.getValue() + " " + doctor.getTime();
+                bookedAppointment.date = dateSelected.getValue();
+                bookedAppointment.time = doctor.getTime();
                 bookedAppointment.doctor_email = doctor.getDocEmail();
                 bookedAppointment.patient_email = auth.getCurrentUser().getEmail();
                 bookedAppointment.price = 69;

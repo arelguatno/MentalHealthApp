@@ -69,6 +69,7 @@ public class ProfileFragment extends Fragment {
 
     private String currentUid;
     private GoogleSignInClient mGoogleSignInClient;
+    public ProgressDialog mProgressDialog;
 
     @Nullable
     @Override
@@ -179,6 +180,7 @@ public class ProfileFragment extends Fragment {
 
     /* Fetches user profile details from Firestore */
     private void fetchUserProfile(){
+        showProgressDialog("Please wait...");
         UserProfileRepository repository = new UserProfileRepository();
         repository.getUserProfile(new UserProfileRepository.UserProfileCallback() {
             @Override
@@ -195,15 +197,18 @@ public class ProfileFragment extends Fragment {
                 lastNameField.setText(value.getLast_name());
                 phoneNumField.setText(value.getMobile_number());
                 emailField.setText(value.getEmail());
+                hideProgressDialog();
             }
 
             @Override
             public void onSuccess(String msg) {
                 // Do nothing
+                hideProgressDialog();
             }
 
             @Override
             public void onFailure(String errorMsg){
+                hideProgressDialog();
                 Toast.makeText(getContext(), errorMsg, Toast.LENGTH_LONG).show();
             }
         });
@@ -440,16 +445,19 @@ public class ProfileFragment extends Fragment {
 
     /* Display profile pic from a given string url */
     private void displayProfilePic(String url){
+        showProgressDialog("Please wait...");
         Picasso.get().load(url).into(profilePicImageView, new Callback() {
             @Override
             public void onSuccess() {
                 // Do nothing
+                hideProgressDialog();
             }
 
             @Override
             public void onError(Exception e) {
                 // Put back the anonymous profile placeholder in case something goes wrong
                 profilePicImageView.setImageResource(R.drawable.profile_photo_placeholder);
+                hideProgressDialog();
             }
         });
     }
@@ -485,5 +493,23 @@ public class ProfileFragment extends Fragment {
             Toast.makeText(getContext(), "File cannot be saved", Toast.LENGTH_LONG).show();
         }
     }
+
+    public void showProgressDialog(String message) {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(getContext());
+            mProgressDialog.setMessage(message);
+            mProgressDialog.setIndeterminate(true);
+            mProgressDialog.setCancelable(false);
+        }
+
+        mProgressDialog.show();
+    }
+
+    public void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
+    }
+
 
 }
