@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -37,7 +38,7 @@ public class DoctorsListAdapter extends RecyclerView.Adapter<DoctorsListAdapter.
     public static class DoctorsViewHolder extends RecyclerView.ViewHolder {
         public ImageView mImageView;
         public TextView docName;
-        public TextView rating;
+        public RatingBar rating;
         public TextView time;
         public Button bookButton;
 
@@ -45,7 +46,7 @@ public class DoctorsListAdapter extends RecyclerView.Adapter<DoctorsListAdapter.
             super(itemView);
             mImageView = itemView.findViewById(R.id.imageView2);
             docName = itemView.findViewById(R.id.textView3);
-            rating = itemView.findViewById(R.id.textView4);
+            rating = itemView.findViewById(R.id.ratingBar);
             time = itemView.findViewById(R.id.textView6);
             bookButton = itemView.findViewById(R.id.button);
         }
@@ -72,7 +73,7 @@ public class DoctorsListAdapter extends RecyclerView.Adapter<DoctorsListAdapter.
 
 
         holder.docName.setText(doctor.getDocName());
-        holder.rating.setText(doctor.getRating());
+        holder.rating.setRating(Float.parseFloat(doctor.getRating()));
         holder.time.setText(doctor.getTime());
 
         holder.bookButton.setOnClickListener(new View.OnClickListener() {

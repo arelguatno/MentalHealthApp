@@ -15,6 +15,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
@@ -48,6 +49,15 @@ public class BookAnAppointmentFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v =  inflater.inflate(R.layout.fragment_book_an_appointment, container,false);
+
+        // Tool Bar
+        Toolbar toolbar = v.findViewById(R.id.toolbar);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+
+        if (((AppCompatActivity) getActivity()).getSupportActionBar() != null) {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Book an Appointment");
+        }
+
         date = (TextView) v.findViewById(R.id.textView2);
         calendar_img = (ImageView) v.findViewById(R.id.imageView3);
         Calendar calendar = Calendar.getInstance();
@@ -88,9 +98,9 @@ public class BookAnAppointmentFragment extends Fragment {
             }
         };
         ArrayList<DoctorListItemModel> doctorList = new ArrayList<>();
-        doctorList.add(new DoctorListItemModel("", "Dr. Quacke Quack", "drquackquack@gmail.com","4.0/5", "3:00 PM"));
-        doctorList.add(new DoctorListItemModel("", "Dr. Drake Ramoray", "drakeramoray@yahoo.com","4.2/5", "4:00 PM"));
-        doctorList.add(new DoctorListItemModel("", "Dr. Johnny Simcard", "johnnysims@philhealth.org","4.3/5", "5:00 PM"));
+        doctorList.add(new DoctorListItemModel("", "Dr. Quacke Quack", "drquackquack@gmail.com","4", "3:00 PM"));
+        doctorList.add(new DoctorListItemModel("", "Dr. Drake Ramoray", "drakeramoray@yahoo.com","4.5", "4:00 PM"));
+        doctorList.add(new DoctorListItemModel("", "Dr. Johnny Simcard", "johnnysims@philhealth.org","4.8", "5:00 PM"));
 
         recyclerView = v.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -101,4 +111,5 @@ public class BookAnAppointmentFragment extends Fragment {
 
         return v;
     }
+
 }

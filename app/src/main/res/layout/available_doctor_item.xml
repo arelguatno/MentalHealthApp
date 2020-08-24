@@ -32,11 +32,14 @@
                 android:layout_height="wrap_content"
                 android:text="Doctor Jones" />
 
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="match_parent"
+
+            <RatingBar
+                style="?android:attr/ratingBarStyleSmall"
+                android:id="@+id/ratingBar"
+                android:layout_gravity="left"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="4/5" />
+                android:numStars="5" />
 
             <TextView
                 android:id="@+id/textView6"
@@ -51,6 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="10dp"
+            android:background="@drawable/home_screen_login_button"
             android:text="Book" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
