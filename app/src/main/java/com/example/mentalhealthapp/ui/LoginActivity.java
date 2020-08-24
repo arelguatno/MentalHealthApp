@@ -6,7 +6,11 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -42,6 +46,8 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -291,8 +297,32 @@ public class LoginActivity extends AppCompatActivity {
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
 
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            startActivity(intent);
+                            Map<String, Object> dbData = new HashMap<>();
+                            dbData.put("dateCreated", FieldValue.serverTimestamp());
+                            dbData.put("display_name", user.getDisplayName());
+                            dbData.put("first_name", "");
+                            dbData.put("last_name", "");
+                            dbData.put("email", user.getEmail());
+                            dbData.put("image", "");
+                            dbData.put("isADoctor", false);
+                            if(user.getPhoneNumber() == null){ dbData.put("mobile_number", ""); }
+                            else{dbData.put("mobile_number", user.getPhoneNumber());}
+                            db.collection("users").document(user.getUid()).set(dbData)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Log.d(TAG, "DocumentSnapshot successfully written!");
+
+                                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                            startActivity(intent);
+
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w(TAG, "Error writing document", e);
+                                }
+                            });
                             //updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
