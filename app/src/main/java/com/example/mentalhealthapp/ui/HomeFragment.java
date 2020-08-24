@@ -142,7 +142,9 @@ public class HomeFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         db.collection(Constants.APPOINTMENTS_COLLECTION)
-                .whereEqualTo("patient_email", mAuth.getCurrentUser().getEmail()).addSnapshotListener(new EventListener<QuerySnapshot>() {
+                .whereEqualTo("patient_email", mAuth.getCurrentUser().getEmail())
+                .orderBy("date")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException e) {
                 if (e != null) {
