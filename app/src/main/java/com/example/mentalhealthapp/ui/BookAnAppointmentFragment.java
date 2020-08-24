@@ -44,6 +44,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Random;
 
 public class BookAnAppointmentFragment extends Fragment {
 
@@ -57,7 +58,7 @@ public class BookAnAppointmentFragment extends Fragment {
     CalendarViewModel calendarViewModel;
     FirebaseFirestore db;
     private static String TAG = "BookAnAppointmentFragment";
-
+    Random rand;
 
     @Nullable
     @Override
@@ -71,6 +72,8 @@ public class BookAnAppointmentFragment extends Fragment {
         if (((AppCompatActivity) getActivity()).getSupportActionBar() != null) {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Book an Appointment");
         }
+
+        rand= new Random();
 
         date = (TextView) v.findViewById(R.id.textView2);
         calendar_img = (ImageView) v.findViewById(R.id.imageView3);
@@ -123,7 +126,10 @@ public class BookAnAppointmentFragment extends Fragment {
                 }
                 doctorList.clear();
                 for (QueryDocumentSnapshot doc : value) {
-                    doctorList.add(new DoctorListItemModel("", "Dr. " + doc.getString("display_name"), doc.getString("email"), "4", "3:00 PM"));
+                    int low = 1;
+                    int high = 10;
+                    int r = rand.nextInt(high-low) + low;
+                    doctorList.add(new DoctorListItemModel("", "Dr. " + doc.getString("display_name"), doc.getString("email"), "5", String.valueOf(r)+":00 PM"));
                 }
                 recyclerView = v.findViewById(R.id.recyclerView);
                 recyclerView.setHasFixedSize(true);
