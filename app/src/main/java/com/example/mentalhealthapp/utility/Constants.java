@@ -7,4 +7,5 @@ public class Constants {
     public static final int ACTION_REQUEST_CAMERA = 2;
     public static final String APPOINTMENTS_COLLECTION = "appointments";
     public static final String USER_COLLECTION = "users";
+    public static final String ANONYMOUS_LABEL = "Anonymous";
 }

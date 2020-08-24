@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
                         selectedFragment = new PatientAppointmentsFragment();
                     } else {
                         selectedFragment = new ConsultationFragment();
-
                     }
                     break;
                 case R.id.nav_profile:

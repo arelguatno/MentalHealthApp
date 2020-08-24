@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,13 +16,18 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mentalhealthapp.R;
 import com.example.mentalhealthapp.adapters.DoctorsListAdapter;
 import com.example.mentalhealthapp.adapters.PatientListAdapter;
+import com.example.mentalhealthapp.java_objects.CalendarViewModel;
 import com.example.mentalhealthapp.java_objects.DoctorListItemModel;
 import com.example.mentalhealthapp.java_objects.PatientListItemModel;
 import com.example.mentalhealthapp.repository.PatientAppointmentRepository;
@@ -44,13 +50,22 @@ public class PatientAppointmentsFragment extends Fragment {
     RecyclerView.LayoutManager layoutManager;
 
     // List model for patients
-    ArrayList<PatientListItemModel> patientList = new ArrayList<PatientListItemModel>();
+    ArrayList<PatientListItemModel> patientList;
     String selectedDate;
+    CalendarViewModel calendarViewModel;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v =  inflater.inflate(R.layout.fragment_patients_appointment, container,false);
+
+        // Prepares toolbar
+        Toolbar toolbar = v.findViewById(R.id.toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+
+        if (((AppCompatActivity) getActivity()).getSupportActionBar() != null) {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("View list of Appointments");
+        }
 
         date = (TextView) v.findViewById(R.id.patient_list_date);
         calendar_img = (ImageView) v.findViewById(R.id.patient_list_calendar_image);
@@ -59,16 +74,26 @@ public class PatientAppointmentsFragment extends Fragment {
         selectedDate = getFormattedDate(Calendar.getInstance().getTime(), "yyyy/MM/dd");
         date.setText(selectedDate);
 
+        calendarViewModel = new ViewModelProvider(this).get(CalendarViewModel.class);
+        calendarViewModel.getDate().setValue(selectedDate);
+        calendarViewModel.getDate().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                Log.d("New Value:", s);
+            }
+        });
+
         // Prepares on click listener for the calendar image view
         calendar_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), listener,
-                    Calendar.getInstance().get(Calendar.YEAR),
-                    Calendar.getInstance().get(Calendar.MONTH),
-                    Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
-            datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
-            datePickerDialog.show();
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), listener,
+                        Calendar.getInstance().get(Calendar.YEAR),
+                        Calendar.getInstance().get(Calendar.MONTH),
+                        Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+                datePickerDialog.show();
             }
         });
 
@@ -80,29 +105,27 @@ public class PatientAppointmentsFragment extends Fragment {
                 // Updates the date textview
                 selectedDate = getFormattedDate((i + "/" + i1 + "/" + i2), "yyyy/MM/dd");
                 date.setText(selectedDate);
-
+                calendarViewModel.getDate().setValue(selectedDate);
                 // Renews the list of data based on the new query
-                fetchData(selectedDate);
+                //fetchData(selectedDate);
             }
         };
 
-        // Instantiates the patient list
-        patientList = new ArrayList<>();
-        // Prepares the recycler view
+        // Instantiates the recycler view and the patient list
         recyclerView = v.findViewById(R.id.patientListRecyclerView);
-        recyclerView.setHasFixedSize(true);
+        patientList = new ArrayList<>();
         // Begins to fetch the data with a given default date
-        fetchData(selectedDate);
+        fetchData();
 
         return v;
     }
 
-    private void fetchData(String date){
-        // Empties the patientList for refreshing
+    private void fetchData(){
+        // Refreshes the patient list
         patientList.clear();
         // Gets the data from repository and listens for results
         final PatientAppointmentRepository repository = new PatientAppointmentRepository();
-        repository.getPatientAppointmentList(date, new PatientAppointmentRepository.FetchPatientAppointmentCallback(){
+        repository.getPatientAppointmentList(new PatientAppointmentRepository.FetchPatientAppointmentCallback(){
 
             @Override
             public void onSuccess(PatientListItemModel value) {
@@ -112,7 +135,6 @@ public class PatientAppointmentsFragment extends Fragment {
             @Override
             public void onSuccess(ArrayList<PatientListItemModel> list) {
                 patientList = list;
-
                 // Gets the data from repository and listens for results
                 for (final PatientListItemModel patient : patientList){
                     repository.getPatientDetails(patient.getPatientEmail(), new PatientAppointmentRepository.FetchPatientDataCallback(){
@@ -136,16 +158,17 @@ public class PatientAppointmentsFragment extends Fragment {
             @Override
             public void onFailure(String errorMsg) {
                 Toast.makeText(getContext(), errorMsg, Toast.LENGTH_LONG).show();
-                // Still populates the data (but without a specific display name and photo URL)
                 populateData();
             }
         });
     }
 
     private void populateData() {
+        // Deals with the recycler view
+        recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new PatientListAdapter(getContext(), patientList);
+        adapter = new PatientListAdapter(getContext(), calendarViewModel.getDate(), patientList);
         recyclerView.setAdapter(adapter);
         recyclerView.invalidate();
     }
