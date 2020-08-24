@@ -64,7 +64,7 @@ public class PatientAppointmentsFragment extends Fragment {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         if (((AppCompatActivity) getActivity()).getSupportActionBar() != null) {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("View list of Appointments");
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("List of Appointments");
         }
 
         date = (TextView) v.findViewById(R.id.patient_list_date);
