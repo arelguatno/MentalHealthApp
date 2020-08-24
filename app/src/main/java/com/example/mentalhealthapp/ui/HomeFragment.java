@@ -1,6 +1,7 @@
 package com.example.mentalhealthapp.ui;
 
 import android.app.ProgressDialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,20 +24,35 @@ import com.example.mentalhealthapp.adapters.FeaturedListCustomAdapter;
 import com.example.mentalhealthapp.adapters.RecommendedListCustomAdapter;
 import com.example.mentalhealthapp.java_objects.AppointmentModel;
 import com.example.mentalhealthapp.java_objects.RecommendedListModel;
+import com.example.mentalhealthapp.utility.Constants;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 import static com.example.mentalhealthapp.utility.Constants.DISPLAY_NAME;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 public class HomeFragment extends Fragment {
     CarouselView carouselView;
@@ -77,15 +94,15 @@ public class HomeFragment extends Fragment {
         carouselView.setPageCount(sampleImages.length);
         carouselView.setImageListener(imageListener);
 
-        //Appointments
-        populateAppointments(v, appointments_sample);
-
         //Recommended
         populateList(v, R.id.recycler_view, recommended_icons, recommended_iconsName);
         //Featured
         populateList(v, R.id.recycler_view_2, featured_icons, featured_iconsName);
 
         getDisplayName(v);
+        //Appointments
+        populateAppointments(v);
+        getAppoinmentData();
 
         return v;
     }
@@ -117,26 +134,44 @@ public class HomeFragment extends Fragment {
         }
     }
 
-
-    private void populateAppointments(View v, String[] appointments_sample) {
+    private void populateAppointments(final View v) {
         recyclerView = v.findViewById(R.id.recycler_appointment);
         appointmentsArrayList = new ArrayList<>();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(v.getContext(), LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        for (int i = 0; i < appointments_sample.length; i++) {
-            AppointmentModel itemModel = new AppointmentModel();
+        db.collection(Constants.APPOINTMENTS_COLLECTION)
+                .whereEqualTo("patient_email", mAuth.getCurrentUser().getEmail()).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    Log.w(TAG, "Listen failed.", e);
+                    return;
+                }
+                appointmentsArrayList.clear();
+                for (QueryDocumentSnapshot doc : value) {
+                    if (doc.get("video_room") != null) {
+                        AppointmentModel itemModel = new AppointmentModel();
+                        String string = doc.getString("date");
+                        DateFormat format = new SimpleDateFormat("yyyy/MM/dd hh:mm a", Locale.ENGLISH);
 
-            itemModel.setDate_number("22");
-            itemModel.setDate_month("August");
-            appointmentsArrayList.add(itemModel);
-        }
+                        try {
+                            Date date = format.parse(string);
+                            itemModel.setDate_number(String.valueOf(date.getDate()));
+                            itemModel.setDate_month(getDateOfTheMonth(date));
+                            appointmentsArrayList.add(itemModel);
 
-        AppointmentAdapter adapter = new AppointmentAdapter(v.getContext(), appointmentsArrayList);
-        recyclerView.setAdapter(adapter);
-
-
+                        } catch (ParseException ex) {
+                            Log.d(TAG, "Current client " + ex.getMessage());
+                            ex.printStackTrace();
+                        }
+                    }
+                }
+                AppointmentAdapter adapter = new AppointmentAdapter(v.getContext(), appointmentsArrayList);
+                recyclerView.setAdapter(adapter);
+            }
+        });
     }
 
     ImageListener imageListener = new ImageListener() {
@@ -146,11 +181,10 @@ public class HomeFragment extends Fragment {
         }
     };
 
-    private void getDisplayName(final View v){
-        FirebaseUser user = mAuth.getCurrentUser();
+    private void getDisplayName(final View v) {
         final TextView labelName = v.findViewById(R.id.welcome_label);
 
-        DocumentReference docRef = db.collection("users").document(mAuth.getUid());
+        DocumentReference docRef = db.collection(Constants.USER_COLLECTION).document(mAuth.getUid());
         docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException e) {
@@ -174,6 +208,10 @@ public class HomeFragment extends Fragment {
         });
     }
 
+    private void getAppoinmentData() {
+
+    }
+
     public void showProgressDialog(String message) {
         if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(getContext());
@@ -195,5 +233,37 @@ public class HomeFragment extends Fragment {
     public void onStop() {
         super.onStop();
         hideProgressDialog();
+    }
+
+    private String getDateOfTheMonth(Date i) {
+        switch (i.getMonth()) {
+            case 0:
+                return "January";
+            case 1:
+                return "February";
+            case 2:
+                return "March";
+            case 3:
+                return "April";
+            case 4:
+                return "May";
+            case 5:
+                return "June";
+            case 6:
+                return "July";
+            case 7:
+                return "August";
+            case 8:
+                return "September";
+            case 9:
+                return "October";
+            case 10:
+                return "November";
+            case 11:
+                return "December";
+
+            default:
+                return "January";
+        }
     }
 }

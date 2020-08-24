@@ -50,13 +50,6 @@ public class VideoActivity extends AppCompatActivity implements Connector.IConne
 
     }
 
-//    public void Start(View v){
-//
-//        vc = new Connector(videoFrame, Connector.ConnectorViewStyle.VIDYO_CONNECTORVIEWSTYLE_Default,  16, "","",0);
-//        vc.showViewAt(videoFrame, 0, 0, videoFrame.getWidth(), videoFrame.getHeight());
-//
-//    }
-
     public void Connect(View v){
         btnConnect.setClickable(false);
         btnDisconnect.setClickable(true);
@@ -64,7 +57,7 @@ public class VideoActivity extends AppCompatActivity implements Connector.IConne
         vc = new Connector(videoFrame, Connector.ConnectorViewStyle.VIDYO_CONNECTORVIEWSTYLE_Default, 15, "warning info@VidyoClient info@VidyoConnector", "", 0);
         vc.showViewAt(videoFrame, 0, 0, videoFrame.getWidth(), videoFrame.getHeight());
 
-        String token = "cHJvdmlzaW9uAHVzZXIxQGYxMGI4Yi52aWR5by5pbwA2Mzc2NTQxMzg5NAAANWViNDQ4NjZjYTI3NzA4NzkwZjFiNTk2OGYwNTllYTdmOTAyMGMwZmEwNmU1OTc3ZTY3MDc5MmUyNjdmYjZjOGMxMzhlNDI0MmMxNTc5ZGNlMjRiMDJlNDEzOTI2YmM4";
+        String token = "cHJvdmlzaW9uAHVzZXIxQGYxMGI4Yi52aWR5by5pbwA2Mzc2NTU4NjU0OAAAOGIxNjA2ZmFiMTJjMjYwNGExNjdmZGJhZTNlZjQ0YTIyM2ZjMDg0NjczODBjOTA5ZGMwODc5ZWEyNTlkNDQ3OTQ2ODc5MWI3M2NkMjlhNzQ4NmZhYTcwMTA5NjIwM2Ez";
         vc.connect("prod.vidyo.io", token, DISPLAY_NAME, "DemoRoom", this);
 
     }
@@ -98,7 +91,7 @@ public class VideoActivity extends AppCompatActivity implements Connector.IConne
             // Request for camera permission.
             if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Log.d("VideoActivity", "Camera granted");
-//                findViewById(R.id.btn_vid_connect).setClickable(true);
+                findViewById(R.id.btn_vid_connect).setClickable(true);
             }
         }
     }

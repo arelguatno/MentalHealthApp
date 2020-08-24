@@ -4,6 +4,16 @@ public class DoctorListItemModel {
 
     public String photoURL;
     public String docName;
+    public String docEmail;
+
+    public String getDocEmail() {
+        return docEmail;
+    }
+
+    public void setDocEmail(String docEmail) {
+        this.docEmail = docEmail;
+    }
+
     public String rating;
     public String time;
 
@@ -39,9 +49,10 @@ public class DoctorListItemModel {
         this.time = time;
     }
 
-    public DoctorListItemModel(String s, String s1, String v, String s2) {
+    public DoctorListItemModel(String s, String s1, String x, String v, String s2) {
         photoURL = s;
         docName = s1;
+        docEmail = x;
         rating = v;
         time = s2;
     }
