@@ -64,7 +64,7 @@ public class VideoActivity extends AppCompatActivity implements Connector.IConne
         vc = new Connector(videoFrame, Connector.ConnectorViewStyle.VIDYO_CONNECTORVIEWSTYLE_Default, 15, "warning info@VidyoClient info@VidyoConnector", "", 0);
         vc.showViewAt(videoFrame, 0, 0, videoFrame.getWidth(), videoFrame.getHeight());
 
-        String token = "cHJvdmlzaW9uAHVzZXIxQGYxMGI4Yi52aWR5by5pbwA2Mzc2NTU4NjU0OAAAOGIxNjA2ZmFiMTJjMjYwNGExNjdmZGJhZTNlZjQ0YTIyM2ZjMDg0NjczODBjOTA5ZGMwODc5ZWEyNTlkNDQ3OTQ2ODc5MWI3M2NkMjlhNzQ4NmZhYTcwMTA5NjIwM2Ez";
+        String token = "cHJvdmlzaW9uAHVzZXIxQGYxMGI4Yi52aWR5by5pbwA2Mzc2NTY1ODMzNgAANTE1NTg2ODNjOGEyNDY4YzE2YmUyZWE5NTI0NWE4ZTg3NjNiZjRhZGRjOWRhNjEzZjQxOWU2Y2JjOGU4ZGU5MjU0M2UzNDgyMTdmYzIxZGQ5NDg5NDczOGRmODAzNGYz";
         vc.connect("prod.vidyo.io", token, DISPLAY_NAME, callID, this);
     }
 
