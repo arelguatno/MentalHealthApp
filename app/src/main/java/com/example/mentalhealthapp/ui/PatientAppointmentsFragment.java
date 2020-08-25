@@ -107,6 +107,9 @@ public class PatientAppointmentsFragment extends Fragment {
             }
         };
 
+        // Instantiates the recycler view and the patient list
+        recyclerView = v.findViewById(R.id.patientListRecyclerView);
+        patientList = new ArrayList<>();
         // Begins to fetch the data with a given default date
         fetchData();
 
