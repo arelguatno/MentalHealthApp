@@ -47,7 +47,7 @@ public class PatientAppointmentRepository {
         // Prepares an item model list
         final ArrayList<PatientListItemModel> patientList = new ArrayList<>();
 
-        db.collection("appointments")
+        db.collection(Constants.APPOINTMENTS_COLLECTION)
                 .whereEqualTo("doctor_email", user.getEmail())
                 .whereEqualTo("date", selectedDate)
                 .orderBy("time")
@@ -85,7 +85,7 @@ public class PatientAppointmentRepository {
         // Prepares an item model list
         final HashMap<String, String> map = new HashMap<>();
 
-        db.collection("users")
+        db.collection(Constants.USER_COLLECTION)
                 .whereEqualTo("email", email)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override

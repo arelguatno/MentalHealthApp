@@ -6,6 +6,7 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 
 import com.example.mentalhealthapp.java_objects.UserModel;
+import com.example.mentalhealthapp.utility.Constants;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -36,7 +37,7 @@ public class UserProfileRepository {
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final UserModel profile = new UserModel();
 
-        db.collection("users")
+        db.collection(Constants.USER_COLLECTION)
                 .document(user.getUid())
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -122,7 +123,7 @@ public class UserProfileRepository {
         }};
 
         // Updates the given fields in their corresponding document from Firestore
-        FirebaseFirestore.getInstance().collection("users")
+        FirebaseFirestore.getInstance().collection(Constants.USER_COLLECTION)
                 .document(user.getUid()).update(personalDetails)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -154,7 +155,7 @@ public class UserProfileRepository {
         }};
 
         // Updates the given fields in their corresponding document from Firestore
-        FirebaseFirestore.getInstance().collection("users")
+        FirebaseFirestore.getInstance().collection(Constants.USER_COLLECTION)
                 .document(user.getUid()).update(contactDetails)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
