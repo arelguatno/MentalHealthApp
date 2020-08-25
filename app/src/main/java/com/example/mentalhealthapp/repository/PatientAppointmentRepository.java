@@ -62,22 +62,12 @@ public class PatientAppointmentRepository {
                         patientList.clear();
                         for (QueryDocumentSnapshot doc : value) {
                             final PatientListItemModel patientAppointment = new PatientListItemModel();
-                            // Accepts the data if the date/time of appointment matches the date string input
-                            //String dateTimeStr = doc.getString"toString(");
                             patientAppointment.setDateTime(doc.getString("date") + " " + doc.getString("time"));
                             patientAppointment.setPatientEmail(doc.getData().get("patient_email").toString());
                             patientAppointment.setPatientName(Constants.ANONYMOUS_LABEL);
                             patientAppointment.setPhotoURL("");
                             patientAppointment.setVideoRoom(doc.getString("video_room").toString());
                             patientList.add(patientAppointment);
-                            /*if (dateTimeStr.contains(date)) {
-                                patientAppointment.setDateTime(doc.getData().get("date").toString());
-                                patientAppointment.setPatientEmail(doc.getData().get("patient_email").toString());
-                                patientAppointment.setPatientName("Unnamed patient");
-                                patientAppointment.setPhotoURL("");
-                                patientAppointment.setVideoRoom(doc.getData().get("video_room").toString());
-                                patientList.add(patientAppointment);
-                            }*/
                         }
                         // Returns a success result if the list has a data
                         if (!patientList.isEmpty()){
