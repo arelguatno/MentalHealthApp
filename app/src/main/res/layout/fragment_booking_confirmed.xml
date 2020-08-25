@@ -30,7 +30,7 @@
             android:fontFamily="sans-serif-condensed-medium"
             android:gravity="center"
             android:textColor="@android:color/black"
-            android:text="Thank you, your appointment has been confirmed!"
+            android:text="Thank you, your payment and appointment has been confirmed!"
             android:textSize="24sp" />
 
         <Button
