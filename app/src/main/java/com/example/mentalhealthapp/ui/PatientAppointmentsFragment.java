@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,10 +24,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mentalhealthapp.R;
-import com.example.mentalhealthapp.adapters.DoctorsListAdapter;
 import com.example.mentalhealthapp.adapters.PatientListAdapter;
 import com.example.mentalhealthapp.java_objects.CalendarViewModel;
-import com.example.mentalhealthapp.java_objects.DoctorListItemModel;
 import com.example.mentalhealthapp.java_objects.PatientListItemModel;
 import com.example.mentalhealthapp.repository.PatientAppointmentRepository;
 
@@ -107,14 +104,9 @@ public class PatientAppointmentsFragment extends Fragment {
                 selectedDate = getFormattedDate((i + "/" + i1 + "/" + i2), "yyyy/M/d");
                 date.setText(selectedDate);
                 calendarViewModel.getDate().setValue(selectedDate);
-                // Renews the list of data based on the new query
-                //fetchData(selectedDate);
             }
         };
 
-        // Instantiates the recycler view and the patient list
-        recyclerView = v.findViewById(R.id.patientListRecyclerView);
-        patientList = new ArrayList<>();
         // Begins to fetch the data with a given default date
         fetchData();
 
@@ -127,12 +119,6 @@ public class PatientAppointmentsFragment extends Fragment {
         // Gets the data from repository and listens for results
         final PatientAppointmentRepository repository = new PatientAppointmentRepository(selectedDate);
         repository.getPatientAppointmentList(new PatientAppointmentRepository.FetchPatientAppointmentCallback(){
-
-            @Override
-            public void onSuccess(PatientListItemModel value) {
-                // Do nothing
-            }
-
             @Override
             public void onSuccess(ArrayList<PatientListItemModel> list) {
                 patientList = list;
@@ -144,13 +130,13 @@ public class PatientAppointmentsFragment extends Fragment {
                             patient.setPatientName(data.get("patient_name"));
                             patient.setPhotoURL(data.get("patient_photo"));
                             // Populates the data with a specific display name and photo URL
-                            populateData();
+                            refreshAndPopulateData();
                         }
 
                         @Override
                         public void onFailure() {
                             // Still populates the data (but without a specific display name and photo URL)
-                            populateData();
+                            refreshAndPopulateData();
                         }
                     });
                 }
@@ -158,12 +144,13 @@ public class PatientAppointmentsFragment extends Fragment {
 
             @Override
             public void onFailure(String errorMsg) {
-                populateData();
+                // This part is usually when the data is empty, so we still go ahead and populate the data
+                refreshAndPopulateData();
             }
         });
     }
 
-    private void populateData() {
+    private void refreshAndPopulateData() {
         // Deals with the recycler view
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getContext());

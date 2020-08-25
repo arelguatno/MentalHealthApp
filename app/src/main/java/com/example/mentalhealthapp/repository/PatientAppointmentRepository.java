@@ -30,7 +30,6 @@ public class PatientAppointmentRepository {
     }
 
     public interface FetchPatientAppointmentCallback {
-        void onSuccess(PatientListItemModel value);
         void onSuccess(ArrayList<PatientListItemModel> list);
         void onFailure(String errorMsg);
     }
